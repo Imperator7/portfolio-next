@@ -3,43 +3,37 @@
 import { useState } from 'react'
 
 const CopyEmail = () => {
-  const [clicked, setClicked] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const email = 'rungrojr.ball@gmail.com'
 
   const handleOnClick = async () => {
     try {
       await navigator.clipboard.writeText(email)
-      setClicked(true)
-    } catch {
-      const ta = document.createElement('textarea')
-      ta.value = email
-      ta.setAttribute('readonly', '')
-      ta.style.position = 'fixed'
-      ta.style.opacity = '0'
-      document.body.appendChild(ta)
-      ta.select()
-      try {
-        document.execCommand('copy')
-        setClicked(true)
-      } finally {
-        document.body.removeChild(ta)
-      }
-    } finally {
+      setCopied(true)
       setTimeout(() => {
-        setClicked(false)
-      }, 1000)
+        setCopied(false)
+      }, 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
     }
   }
   return (
-    <span
-      className={[
-        'hover:underline hover:cursor-pointer',
-        clicked ? 'text-green-400 underline' : '',
-      ].join(' ')}
-      onClick={handleOnClick}
-    >
-      {email}
+    <span>
+      <span
+        className={[
+          'underline hover:cursor-pointer',
+          copied ? 'text-green-400 underline' : '',
+        ].join(' ')}
+      >
+        <a href={`mailto:${email}`}>{email}</a>
+      </span>
+      <button
+        className="btn font-bold bg-green-500 rounded-xl px-4 mx-4 cursor-pointer"
+        onClick={handleOnClick}
+      >
+        {copied ? 'Copied!' : 'Copy'}
+      </button>
     </span>
   )
 }

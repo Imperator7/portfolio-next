@@ -42,7 +42,7 @@ export default function Home() {
           <Contact />
         </h3>
 
-        <div className="h-50"></div>
+        <div className="h-50 bg-black"></div>
       </section>
     </div>
   )
