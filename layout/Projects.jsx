@@ -23,7 +23,7 @@ const projects = [
       'Typescript',
       'Tailwind',
       'responsive',
-      'mobile-interaction',
+      'mobile interaction',
     ],
     link: 'https://tictactoe-from-react-docs.vercel.app/',
     github: 'https://github.com/Imperator7/tictactoe-from-react-docs',
@@ -36,8 +36,8 @@ const Projects = () => {
       <div>
         <h2 className="topic-text">Projects</h2>
         <div className="flex flex-wrap gap-x-8 gap-y-8">
-          {projects.map((project, i) => (
-            <Project {...project} key={i} />
+          {projects.map((project) => (
+            <Project {...project} key={project.name} />
           ))}
         </div>
       </div>
