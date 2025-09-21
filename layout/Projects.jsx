@@ -5,11 +5,28 @@ import Project from '../components/Project'
 
 const projects = [
   {
-    name: 'tic tac toe',
-    img: 'tictactoe.png',
+    name: 'Portfolio by Next',
+    img: 'picture/portfolio.png',
+    description: 'portfolio built with Next.js',
+    type: 'scratch',
+    stack: ['Next.js', 'Javascript', 'Tailwind'],
+    link: 'https://rungroj-portfolio.vercel.app/',
+    github: 'https://github.com/Imperator7/portfolio-next',
+  },
+  {
+    name: 'TicTacToe',
+    img: 'picture/tictactoe.png',
     description: 'tictactoe game',
-    stack: ['React', 'Typescript', 'Tailwind'],
+    type: 'scratch',
+    stack: [
+      'React.ts',
+      'Typescript',
+      'Tailwind',
+      'responsive',
+      'mobile-interaction',
+    ],
     link: 'https://tictactoe-from-react-docs.vercel.app/',
+    github: 'https://github.com/Imperator7/tictactoe-from-react-docs',
   },
 ]
 
@@ -18,9 +35,11 @@ const Projects = () => {
     <Section>
       <div>
         <h2 className="topic-text">Projects</h2>
-        {projects.map((project, i) => (
-          <Project {...project} key={i} />
-        ))}
+        <div className="flex flex-wrap gap-x-8 gap-y-8">
+          {projects.map((project, i) => (
+            <Project {...project} key={i} />
+          ))}
+        </div>
       </div>
     </Section>
   )

@@ -1,66 +1,63 @@
-import Image from 'next/image'
+'use client'
 
-export default function Project({ img, name, description, stack, link }) {
+import Image from 'next/image'
+import Link from 'next/link'
+import GithubIcon from './icons/GithubIcon'
+import ExternalLinkIcon from './icons/ExternalLinkIcon'
+
+export default function Project({
+  img,
+  name,
+  description,
+  stack,
+  link,
+  github,
+  type,
+}) {
   return (
-    <div className="group w-fit max-w-3xl rounded-4xl bg-white/60 backdrop-blur-sm overflow-hidden">
-      <div className="group-hover:scale-150 group-hover:translate-y-22 transition-all duration-500">
+    <div className="relative w-fit max-w-3xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
+      <div className="">
         <Image
           src={`/${img}`}
           width={500}
           height={500}
           alt={img}
-          className="w-full h-full"
+          className="relative w-full h-full object-cover scale-105"
         />
 
-        {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" /> */}
-
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <h2 className="text-2xl font-bold mb-3 drop-shadow-lg">{name}</h2>
-          <div className="flex flex-wrap gap-2">
-            {stack.map((tech, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/25 backdrop-blur-sm text-white border border-white/40 hover:bg-white/35 transition-colors duration-200"
+        <div className="relative p-6 text-white bg-white/10 backdrop-blur-3xl">
+          <h2 className="secondary-topic-text">{name}</h2>
+          <div className="flex justify-between items-start ">
+            <div className="flex flex-wrap gap-y-2">
+              {stack.map((tech, i) => (
+                <span
+                  key={i}
+                  className="font-semibold mr-2 rounded-2xl bg-white/40 backdrop-blur-md px-3 py-1"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-4">
+              <Link
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="try website's example"
+                className="bg-green-600 pl-4 pr-3 py-2 rounded-xl font-bold inline-flex text-nowrap items-center gap-0.5 hover:-translate-y-1 active:translate-y-1 transition-transform duration-150 ease-in-out caret-transparent"
               >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="absolute top-6 right-6 opacity-0  transition-all duration-500 delay-300 transform -translate-y-4 ">
-          <button className="bg-white/20 backdrop-blur-sm text-white py-2 px-4 rounded-full text-sm font-medium border border-white/40 transition-colors duration-200 shadow-lg">
-            View Project →
-          </button>
-        </div>
-      </div>
-
-      {/* Content - fades out completely on hover */}
-      <div className="p-6  transition-all duration-400">
-        {/* Title */}
-        <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
-          {name}
-        </h2>
-
-        {/* Description */}
-        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
-          {description}
-        </p>
-
-        {/* Tech Stack */}
-        <div className="space-y-2">
-          <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            Tech Stack
-          </h4>
-          <div className="flex flex-wrap gap-2">
-            {stack.map((tech, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors duration-200"
+                Try now!
+                <ExternalLinkIcon />
+              </Link>
+              <Link
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="view github's repo"
               >
-                {tech}
-              </span>
-            ))}
+                <GithubIcon className="w-10 h-10 hover:text-black transform-all duration-125" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
