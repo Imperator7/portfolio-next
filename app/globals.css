@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+@layer components {
+  .topic-text {
+    @apply text-5xl font-bold mb-8;
+  }
+
+  .btn {
+    @apply p-2 bg-blue-400;
+  }
+
+  .liquid-glass {
+    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-xs;
+  }
+}
