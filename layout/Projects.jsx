@@ -14,7 +14,7 @@ const projects = [
     github: 'https://github.com/Imperator7/portfolio-next',
   },
   {
-    name: 'TicTacToe',
+    name: 'Tic Tac Toe',
     img: 'picture/tictactoe.png',
     description: 'tictactoe game',
     type: 'scratch',
