@@ -6,7 +6,7 @@ export default function LandingProfile({ navList }) {
     <div className="flex flex-col min-h-[95vh] relative justify-between">
       <Navbar navList={navList} />
       <Image
-        src="/image.png"
+        src="/picture/profile.png"
         quality={100}
         alt="profile-picture"
         fill
