@@ -28,10 +28,7 @@ const CopyEmail = () => {
       >
         <a href={`mailto:${email}`}>{email}</a>
       </span>
-      <button
-        className="btn font-bold bg-green-500 rounded-xl px-4 mx-4 cursor-pointer"
-        onClick={handleOnClick}
-      >
+      <button className="btn bg-green-700 mx-4 text-xl" onClick={handleOnClick}>
         {copied ? 'Copied!' : 'Copy'}
       </button>
     </span>
