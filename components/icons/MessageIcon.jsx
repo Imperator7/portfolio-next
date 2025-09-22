@@ -2,9 +2,9 @@ const MessageIcon = () => {
   return (
     <span
       className="absolute -top-4 left-1/2 -translate-x-32 flex items-center gap-1
-                     bg-black/60 text-white text-xs rounded-lg px-3 py-1 opacity-0
+                     bg-white/10 backdrop-blur-[1px] text-white text-xs rounded-lg px-3 py-1 opacity-0
                      group-hover:opacity-100 transition-opacity duration-300
-                     shadow-lg z-50"
+                     shadow-lg z-50s"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

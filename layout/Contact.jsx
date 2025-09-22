@@ -1,42 +1,23 @@
 import Section from '@/components/Section'
-import CopyEmail from '../components/CopyEmail'
-import MessageIcon from '../components/icons/MessageIcon'
+import ContactDetail from '../components/ContactDetail'
 
 const Contact = () => {
   return (
     <Section>
       <div className="flex gap-1 items-end">
-        <h2 className="topic-text">
-          Contact{' '}
-          <span className="text-xl font-light">
-            would be pleased for any new opportunities, Thank you in advance.
-          </span>
-        </h2>
+        <h2 className="topic-text">Contacts </h2>
       </div>
       <div className="flex gap-20">
         <div className="text-2xl liquid-glass min-w-132 p-4">
           <p className="mb-2">Please contact me via:</p>
-          <div className="relative group flex flex-col gap-2">
-            <p>
-              <b>Email: </b>
-              <CopyEmail />
-            </p>
-            <p>
-              <b>Tel:</b> 095-528-4138
-            </p>
-            <MessageIcon />
+          <div className="relative flex flex-col gap-2">
+            <ContactDetail />
           </div>
         </div>
-        <div>
-          <a
-            href="/files/rungroj_rungsaranon_resume.pdf"
-            download
-            className="btn bg-green-900 block max-w-fit"
-          >
-            Download Resume
-          </a>
-        </div>
       </div>
+      <p className="text-xl font-light my-8">
+        I would be pleased for any new opportunities, Thank you in advance.
+      </p>
     </Section>
   )
 }

@@ -1,4 +1,5 @@
 import NavLink from './NavLink'
+import { FaArrowUp } from 'react-icons/fa6'
 
 export default function RightNavbar({ navList, scrolled }) {
   return (
@@ -9,7 +10,7 @@ export default function RightNavbar({ navList, scrolled }) {
         scrolled ? '' : 'translate-x-100',
       ].join(' ')}
     >
-      <NavLink key={'top'} nav={'back to the top'} link={'top'} />
+      <NavLink key={'top'} nav={<FaArrowUp />} link={'top'} />
       {navList.map((nav, i) => (
         <NavLink key={i} nav={nav} />
       ))}

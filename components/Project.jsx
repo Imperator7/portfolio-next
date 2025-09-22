@@ -16,7 +16,7 @@ export default function Project({
 }) {
   return (
     <div className="relative w-full max-w-3xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
-      <div className="relative w-full xl:h-100 sm:h-52 md: h-60 aspect-[16/9]">
+      <div className="relative w-full xl:h-100 sm:h-52 aspect-[16/9] overflow-hidden">
         <Image
           src={`/${img}`}
           fill

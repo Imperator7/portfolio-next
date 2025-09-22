@@ -18,6 +18,6 @@ html {
   }
 
   .liquid-glass {
-    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-xs;
+    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-[0px];
   }
 }

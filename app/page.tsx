@@ -14,7 +14,13 @@ export default function Home() {
 
   const THRESHOLD = 50 //px to scroll before show right navbar
 
-  const navList = ['About me', 'Projects', 'Tech stack', 'Contact']
+  const navList = [
+    'About me',
+    'Projects',
+    'Tech stack',
+    'Contacts',
+    'Download Resume',
+  ]
 
   const onScroll = () => setScrolled(window.scrollY > THRESHOLD)
 
@@ -38,11 +44,9 @@ export default function Home() {
         <h3 id="Tech stack">
           <Stack />
         </h3>
-        <h3 id="Contact">
+        <h3 id="Contacts">
           <Contact />
         </h3>
-
-        <div className="h-50 bg-black"></div>
       </section>
     </div>
   )

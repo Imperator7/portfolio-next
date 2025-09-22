@@ -1,13 +1,14 @@
 import Section from '@/components/Section'
+import TechStack from '@/components/TechStack'
 
 const Stack = () => {
   const stacks = [
-    'React',
-    'Next',
-    'Javascript',
-    'Typescript',
-    'Node',
-    'Express',
+    'react',
+    'next',
+    'javascript',
+    'typescript',
+    'node',
+    'express',
     'jwt',
     'pug',
     'mongodb',
@@ -20,12 +21,10 @@ const Stack = () => {
   return (
     <Section>
       <div>
-        <h2 className="topic-text">Tech Stack</h2>
-        <div>
+        <h2 className="topic-text mb-16">Tech Stack</h2>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 max-w-[80vw] gap-y-8">
           {stacks.map((tech) => (
-            <p key={tech} className="font-light">
-              {tech}
-            </p>
+            <TechStack tech={tech} key={tech} />
           ))}
         </div>
       </div>
