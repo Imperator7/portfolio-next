@@ -31,7 +31,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black/90 backdrop-blur-ms p-5" id={'top'}>
+    <div
+      className="min-h-screen bg-black/80 backdrop-blur-ms p-2 md:p-4"
+      id={'top'}
+    >
       <RightNavbar navList={navList} scrolled={scrolled} />
       <section className=" bg-white/60 backdrop-blur-2xl rounded-3xl overflow-hidden">
         <LandingProfile navList={navList}></LandingProfile>

@@ -10,14 +10,21 @@ export default function LandingProfile({ navList }) {
         quality={100}
         alt="profile-picture"
         fill
-        className="object-cover z-0 max-h-[100vh]"
+        priority
+        sizes="100vw"
+        className="z-0 object-cover object-[75%_30%] max-h-[dvh]"
       />
       <div className="relative z-10 m-5 flex items-end">
-        <div className="flex flex-col justify-end pointer-events-none mb-10">
-          <h1 className="text-white font-bold text-9xl caret-transparent  drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
+        <div
+          className={[
+            'flex flex-col justify-end pointer-events-none mb-10',
+            'text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-9xl font-bold',
+          ].join(' ')}
+        >
+          <h1 className="caret-transparent  drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)] ">
             Rungroj
           </h1>
-          <h1 className="text-white font-bold leading-tight text-9xl caret-transparent  drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
+          <h1 className="leading-tight caret-transparent  drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
             Rungsaranon
           </h1>
         </div>
