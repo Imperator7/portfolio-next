@@ -4,7 +4,7 @@ const AboutMe = () => {
   return (
     <Section>
       <h2 className="topic-text">About me</h2>
-      <p className="liquid-glass leading-relaxed text-lg indent-16 py-4 px-8 max-w-[80vw]">
+      <p className="liquid-glass leading-relaxed text-lg indent-16 py-4 px-8 max-w-[90vw]">
         I’m a frontend developer specializing in <b>React</b>, <b>Express</b>,{' '}
         <b>TypeScript</b>, and <b>Tailwind</b>. I studied civil engineering
         (B.Eng.) and pivoted into software field after consistently building
