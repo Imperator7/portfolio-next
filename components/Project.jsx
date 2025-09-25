@@ -33,7 +33,10 @@ export default function Project({
             {stack.map((tech, i) => (
               <span
                 key={i}
-                className="font-semibold mr-2 rounded-2xl bg-white/40 backdrop-blur-md px-3 py-1"
+                className={[
+                  'font-semibold mr-2 rounded-2xl bg-white/40 backdrop-blur-md px-3 py-1',
+                  i >= 3 ? 'hidden sm:inline-flex' : '',
+                ].join(' ')}
               >
                 {tech}
               </span>
