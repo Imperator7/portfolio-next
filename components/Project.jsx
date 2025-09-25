@@ -35,7 +35,7 @@ export default function Project({
                 key={i}
                 className={[
                   'font-semibold mr-2 rounded-2xl bg-white/40 backdrop-blur-md px-3 py-1',
-                  i >= 3 ? 'hidden sm:inline-flex' : '',
+                  i >= 3 ? 'invisible sm:visible' : '',
                 ].join(' ')}
               >
                 {tech}
