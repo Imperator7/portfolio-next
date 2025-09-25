@@ -15,7 +15,7 @@ export default function Project({
   type,
 }) {
   return (
-    <div className="relative w-full max-w-3xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
+    <div className="relative w-full max-w-2xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
       <div className="relative w-full sm:h-52 aspect-[16/9] overflow-hidden">
         <Image
           src={`/${img}`}
@@ -35,7 +35,7 @@ export default function Project({
                 key={i}
                 className={[
                   'font-semibold mr-2 rounded-2xl bg-white/40 backdrop-blur-md px-3 py-1 text-sm md:text-base',
-                  i >= 3 ? 'hidden lg:inline-flex' : '',
+                  i >= 3 ? 'hidden sm:inline-flex' : '',
                 ].join(' ')}
               >
                 {tech}
@@ -58,7 +58,7 @@ export default function Project({
               aria-label={`Try ${name}'s demo`}
               className="bg-green-600 pl-4 pr-3 py-2 rounded-xl inline-flex items-center gap-0.5 hover:-translate-y-1 active:translate-y-1 transition-transform duration-150 ease-in-out caret-transparent"
             >
-              <span className="hidden lg:inline-flex font-semibold text-nowrap mx-1">
+              <span className="hidden sm:inline-flex font-semibold text-nowrap mx-1">
                 Try now!
               </span>
               <ExternalLinkIcon />
