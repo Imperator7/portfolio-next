@@ -1,6 +1,6 @@
 import { IoMdDownload } from 'react-icons/io'
 
-const ResumeDownload = ({ visible }) => {
+const ResumeDownload = ({ position }) => {
   return (
     <div>
       <a
@@ -10,7 +10,7 @@ const ResumeDownload = ({ visible }) => {
         download
         className={[
           'btn bg-green-600/80 backdrop-blur-xs cursor-pointer max-w-fit caret-transparent flex items-center gap-1 pointer-events-auto',
-          visible ? 'visible' : 'hidden',
+          position === 'top' ? 'hidden lg:inline-flex' : '',
         ].join(' ')}
       >
         <span>Download Resume</span>

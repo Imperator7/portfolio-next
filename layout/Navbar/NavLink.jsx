@@ -14,7 +14,7 @@ const NavLink = ({ nav, link = nav, position = 'right' }) => {
           {nav}
         </a>
       ) : (
-        <ResumeDownload visible={position === 'top' ? false : true} />
+        <ResumeDownload position={position} />
       )}
     </>
   )
