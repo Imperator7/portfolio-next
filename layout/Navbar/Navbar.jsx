@@ -10,7 +10,7 @@ export default function Navbar({ navList }) {
       ].join('hover:scale:110 transition-all duration-75')}
     >
       {navList.map((nav, i) => (
-        <NavLink key={i} nav={nav} />
+        <NavLink key={i} nav={nav} position={'top'} />
       ))}
     </nav>
   )

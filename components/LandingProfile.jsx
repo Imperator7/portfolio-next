@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function LandingProfile({ navList }) {
   return (
-    <div className="flex flex-col min-h-[95vh] relative justify-between">
+    <div className="flex flex-col max-h-[95vh] h-[80vh] md:h-[95vh] relative justify-between">
       <Navbar navList={navList} />
       <Image
         src="/picture/profile.png"

@@ -22,7 +22,7 @@ const ContactDetail = () => {
   }
   return (
     <div>
-      <p>
+      <p className="max-w-fit text-nowrap">
         <span className="font-bold mr-2">Email: </span>
         <span
           className={[
@@ -34,7 +34,10 @@ const ContactDetail = () => {
           <MessageIcon />
         </span>
         <button
-          className="btn bg-green-700 mx-4 py-1 px-3 text-base inline-flex items-center gap-2"
+          className={[
+            'btn bg-green-700 mx-4 py-1 px-3 text-base items-center gap-2',
+            'hidden md:inline-flex',
+          ].join(' ')}
           onClick={handleOnClick}
         >
           <span>{copied ? 'Copied!' : 'Copy'}</span>

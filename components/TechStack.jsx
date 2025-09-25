@@ -68,10 +68,10 @@ const TechStack = ({ tech }) => {
   const color = brandColor[alias]
 
   return (
-    <div className="flex flex-col font-light px-16 pt-8 pb-4 items-center liquid-glass bg-white/10 backdrop-blur-xs mr-4 lg:mr-8">
+    <li className="flex flex-col px-8 pt-8 pb-4 items-center liquid-glass bg-white/10 backdrop-blur-xs lg:mr-8">
       <Icon aria-hidden className={`${color}`} size={60} />
-      <span className="font-bold text-2xl text-nowrap my-4">{tech}</span>
-    </div>
+      <span className="font-semibold text-2xl text-nowrap my-4">{tech}</span>
+    </li>
   )
 }
 export default TechStack

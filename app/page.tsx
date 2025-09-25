@@ -36,7 +36,7 @@ export default function Home() {
       id={'top'}
     >
       <RightNavbar navList={navList} scrolled={scrolled} />
-      <section className=" bg-white/60 backdrop-blur-2xl rounded-3xl overflow-hidden">
+      <section className=" bg-black backdrop-blur-2xl rounded-3xl overflow-hidden pb-12">
         <LandingProfile navList={navList}></LandingProfile>
         <div id="About me">
           <AboutMe />

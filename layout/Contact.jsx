@@ -8,7 +8,7 @@ const Contact = () => {
         <h2 className="topic-text">Contacts </h2>
       </div>
       <div className="flex gap-20">
-        <div className="text-lg lg:text-xl xl:text-2xl liquid-glass w-fit p-4">
+        <div className="text-lg lg:text-xl xl:text-2xl liquid-glass w-fit py-4 px-6">
           <p className="mb-2">Please contact me via:</p>
           <div className="relative flex flex-col gap-2">
             <ContactDetail />

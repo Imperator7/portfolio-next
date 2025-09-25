@@ -6,7 +6,7 @@ html {
 
 @layer components {
   .topic-text {
-    @apply text-5xl font-bold mb-8;
+    @apply text-5xl font-bold mb-8 md:mb-12;
   }
 
   .secondary-topic-text {

@@ -20,13 +20,13 @@ const Stack = () => {
   ]
   return (
     <Section>
-      <div>
-        <h2 className="topic-text mb-16">Tech Stack</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 max-w-[80vw] gap-y-4 lg:gap-y-8">
+      <div className="relative flex flex-col">
+        <h2 className="topic-text">Tech Stack</h2>
+        <ul className="relative grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] min-w-[80vw] justify-start max-w-[90vw] lg:max-w-[80vw] gap-x-4 md:gap-x-8 gap-y-4 lg:gap-y-8">
           {stacks.map((tech) => (
             <TechStack tech={tech} key={tech} />
           ))}
-        </div>
+        </ul>
       </div>
     </Section>
   )

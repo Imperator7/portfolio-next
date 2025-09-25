@@ -12,7 +12,7 @@ export default function RightNavbar({ navList, scrolled }) {
     >
       <NavLink key={'top'} nav={<FaArrowUp />} link={'top'} />
       {navList.map((nav, i) => (
-        <NavLink key={i} nav={nav} />
+        <NavLink key={i} nav={nav} position={'right'} />
       ))}
     </div>
   )
