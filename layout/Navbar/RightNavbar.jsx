@@ -6,7 +6,7 @@ export default function RightNavbar({ navList, scrolled }) {
     <div
       className={[
         'fixed pointer-events-none right-8 z-50 text-white flex flex-col justify-around items-end h-full',
-        'transition-transform duration-300',
+        'transition-transform duration-400',
         scrolled ? '' : 'translate-x-100',
       ].join(' ')}
     >

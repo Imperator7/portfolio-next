@@ -36,7 +36,12 @@ export default function Home() {
       id={'top'}
     >
       <RightNavbar navList={navList} scrolled={scrolled} />
-      <section className=" bg-black backdrop-blur-2xl rounded-3xl overflow-hidden pb-12">
+      <main
+        className={[
+          'flex flex-col',
+          'bg-black backdrop-blur-2xl rounded-3xl overflow-hidden pb-12',
+        ].join(' ')}
+      >
         <LandingProfile navList={navList}></LandingProfile>
         <div id="About me">
           <AboutMe />
@@ -50,7 +55,7 @@ export default function Home() {
         <h3 id="Contacts">
           <Contact />
         </h3>
-      </section>
+      </main>
     </div>
   )
 }

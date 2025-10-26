@@ -13,6 +13,11 @@ import {
   SiPrisma,
   SiGithubactions,
   SiDocker,
+  SiZod,
+  SiTailwindcss,
+  SiFigma,
+  SiReactquery,
+  SiMockserviceworker,
 } from 'react-icons/si'
 
 const icons = {
@@ -30,6 +35,11 @@ const icons = {
   prisma: SiPrisma,
   githubactions: SiGithubactions,
   docker: SiDocker,
+  zod: SiZod,
+  tailwind: SiTailwindcss,
+  figma: SiFigma,
+  'react query': SiReactquery,
+  msw: SiMockserviceworker,
 }
 
 const brandColor = {
@@ -47,6 +57,11 @@ const brandColor = {
   prisma: 'text-slate-300',
   githubactions: 'text-blue-500',
   docker: 'text-blue-500',
+  zod: 'text-sky-800',
+  tailwind: 'text-cyan-400',
+  figma: 'text-white',
+  'react query': 'text-rose-600',
+  msw: 'text-orange-600',
 }
 
 const aliases = {
@@ -54,13 +69,7 @@ const aliases = {
   'github action': 'githubactions',
 }
 
-const getAlias = (stack) => {
-  const alias = aliases[stack]
-  if (alias) {
-    return alias
-  }
-  return stack
-}
+const getAlias = (stack) => aliases[stack] || stack
 
 const TechStack = ({ tech }) => {
   const alias = getAlias(tech)
@@ -68,9 +77,11 @@ const TechStack = ({ tech }) => {
   const color = brandColor[alias]
 
   return (
-    <li className="flex flex-col px-8 pt-8 pb-4 items-center liquid-glass bg-white/10 backdrop-blur-xs lg:mr-8">
+    <li className="flex flex-col px-8 pt-8 pb-4 items-center liquid-glass bg-white/20 backdrop-blur-xs ">
       <Icon aria-hidden className={`${color}`} size={60} />
-      <span className="font-semibold text-2xl text-nowrap my-4">{tech}</span>
+      <span className="font-semibold text-2xl text-nowrap my-4 text-white">
+        {tech[0].toUpperCase() + tech.slice(1)}
+      </span>
     </li>
   )
 }

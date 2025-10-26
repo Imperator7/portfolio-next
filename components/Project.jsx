@@ -1,7 +1,7 @@
 'use client'
 
+import ProjectStatusBar from './ProjectStatusBar'
 import Image from 'next/image'
-import Link from 'next/link'
 import GithubIcon from './icons/GithubIcon'
 import ExternalLinkIcon from './icons/ExternalLinkIcon'
 
@@ -13,6 +13,7 @@ export default function Project({
   link,
   github,
   type,
+  stage,
 }) {
   return (
     <div className="relative w-full max-w-2xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
@@ -24,6 +25,7 @@ export default function Project({
           quality={90}
           className="object-cover scale-105"
         />
+        <ProjectStatusBar stage={stage} />
       </div>
 
       <div className="relative rounded-b-4xl h-fit max-h-50 p-6 text-white bg-white/10 backdrop-blur-3xl">

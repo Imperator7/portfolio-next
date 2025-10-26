@@ -2,6 +2,7 @@
 
 html {
   scroll-behavior: smooth;
+  color: white;
 }
 
 @layer components {
@@ -10,7 +11,7 @@ html {
   }
 
   .secondary-topic-text {
-    @apply text-3xl font-semibold mb-4;
+    @apply text-3xl font-semibold mb-4 md:mb-8;
   }
 
   .btn {
@@ -18,6 +19,6 @@ html {
   }
 
   .liquid-glass {
-    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-[0px];
+    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-[4px] text-shadow-lg border border-black/10;
   }
 }
