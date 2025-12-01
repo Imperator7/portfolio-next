@@ -12,7 +12,8 @@ export default function LandingProfile({ navList }) {
         fill
         priority
         sizes="100vw"
-        className="z-0 object-cover object-[75%_30%] max-h-[dvh]"
+        draggable={false}
+        className="z-0 object-cover object-[75%_30%] max-h-[dvh] pointer-events-none"
       />
       <div className="relative z-10 m-5 flex items-end">
         <div
