@@ -5,12 +5,12 @@ import Project from '../components/Project'
 
 const projects = [
   {
-    name: 'Todo App',
-    img: 'picture/todo-app.png',
-    description: 'portfolio built with Next.js',
+    name: 'Task management',
+    img: 'picture/task-management.png',
+    description: 'Production-ready task management with optimistic updates',
     type: 'From Scratch',
     stack: ['React.js', 'Typescript', 'Tailwind', 'React Query', 'Zod', 'MSW'],
-    link: 'https://todolist-frontend-sand.vercel.app/',
+    link: 'https://task-management-rungroj.vercel.app/',
     github: 'https://github.com/Imperator7/todolist-frontend',
     stage: 'Completed',
   },
