@@ -5,13 +5,13 @@ const AboutMe = () => {
     <Section>
       <h2 className="topic-text">About me</h2>
       <p className="liquid-glass leading-relaxed text-lg indent-16 py-4 px-8 max-w-[90vw] lg:max-w-[60vw]">
-        I’m a frontend developer specializing in <b>React</b>, <b>Express</b>,{' '}
-        <b>TypeScript</b>, and <b>Tailwind</b>. I studied civil engineering
-        (B.Eng.) and pivoted into software field after consistently building
-        small apps and web tools during university. I value readable code,
-        accessible UI, and fast feedback loops. Currently working on a real-time
-        chat demo (Express + socket.io). Open to junior
-        frontend/backend/fullstack roles — <b>Bangkok/remote</b>.
+        I’m a fullstack developer specializing in <b>React</b>, <b>Next.js</b>,{' '}
+        <b>Express</b>, <b>TypeScript</b>, and <b>Tailwind</b>. I studied civil
+        engineering (B.Eng.) and pivoted into software field after consistently
+        learning and building small apps and web tools during university. I
+        value readable code, accessible UI, and fast feedback loops. Currently
+        working on a real-time restaurant management demo (Express + socket.io).
+        Open to junior frontend/backend/fullstack roles — <b>Bangkok/remote</b>.
       </p>
     </Section>
   )
