@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: "Rungroj's Portfolio",
+  title: 'Rungroj - Fullstack developer',
+  description: "Rungroj's portfolio",
+  icons: {
+    icon: [{ url: '/logo/favicon.svg', type: 'image/svg+xml' }],
+  },
 }
 
 export default function RootLayout({
