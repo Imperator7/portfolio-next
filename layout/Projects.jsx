@@ -5,6 +5,25 @@ import Project from '../components/Project'
 
 const projects = [
   {
+    name: 'Collaborative ordering webapp',
+    img: 'picture/group-ordering.png',
+    description:
+      "A collaborative ordering webapp that has 'Incoming Orders' tracker which syncs table-wide data to alert users of items already being incoming.",
+    type: 'From Scratch',
+    stack: [
+      'Next.js',
+      'Typescript',
+      'Tailwind',
+      'React Query',
+      'Zod',
+      'Mongoose',
+      'MongoDB',
+    ],
+    link: 'https://group-ordering.vercel.app/menu?sessionId=693832a3dca0be8fb74a549e&table=2',
+    github: 'https://github.com/Imperator7/Group-ordering',
+    stage: 'In Development',
+  },
+  {
     name: 'Task management',
     img: 'picture/task-management.png',
     description: 'Production-ready task management with optimistic updates',
@@ -22,7 +41,7 @@ const projects = [
     stack: ['Next.js', 'Typescript', 'Tailwind', 'responsive', 'Figma'],
     link: 'https://space-tour-figma-based.vercel.app/',
     github: 'https://github.com/Imperator7/space-tour-figma-based',
-    stage: 'In Development',
+    stage: 'Completed',
   },
   {
     name: 'Portfolio by Next',
