@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio - Rungroj Rungsaranon
 
-## Getting Started
+A personal portfolio website built with **Next.js 15**, **React 19**, and **Tailwind CSS**. This project showcases my journey from Civil Engineering to Software Development, featuring my technical skills, projects, and resume.
 
-First, run the development server:
+🔗 **Live Demo:** [rungroj-portfolio.vercel.app](https://rungroj-portfolio.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 👨‍💻 About Me
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I’m a **Fullstack Developer** specializing in the React ecosystem (Next.js, TypeScript, Tailwind) and Node.js backends.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Background:** B.Eng. in Civil Engineering (Chulalongkorn University).
+- **Pivot:** Transitioned into the software field through consistent self-learning and building practical web applications.
+- **Values:** Readable code, accessible UI, and fast feedback loops.
+- **Status:** Open to junior frontend/backend/fullstack roles (Bangkok/Remote).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+This portfolio is built using the following technologies:
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Icons:** [React Icons](https://react-icons.github.io/react-icons/)
+- **Deployment:** [Vercel](https://vercel.com/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Featured Projects
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The portfolio includes a showcase section highlighting my key projects:
 
-## Deploy on Vercel
+| Project                    | Type          | Description                                                                     | Tech Stack                          |
+| :------------------------- | :------------ | :------------------------------------------------------------------------------ | :---------------------------------- |
+| **Collaborative Ordering** | From Scratch  | Real-time table ordering app with "Incoming Orders" sync to prevent duplicates. | Next.js, React Query, Zod, MongoDB  |
+| **Task Management**        | From Scratch  | Production-ready to-do list with optimistic updates.                            | React, TypeScript, React Query, MSW |
+| **Space Tourism**          | Figma to Code | Pixel-perfect responsive implementation of a multi-page design.                 | Next.js, Tailwind, Responsive       |
+| **Tic Tac Toe**            | From Scratch  | Classic game with mobile interaction support.                                   | React, TypeScript                   |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Feel free to reach out for opportunities or collaboration!
+
+- **Email:** [rungrojr.ball@gmail.com](mailto:rungrojr.ball@gmail.com)
+- **GitHub:** [Imperator7](https://github.com/Imperator7)
