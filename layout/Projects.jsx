@@ -5,10 +5,10 @@ import Project from '../components/Project'
 
 const projects = [
   {
-    name: 'Collaborative ordering webapp',
+    name: 'Dine Together',
     img: 'picture/group-ordering.png',
     description:
-      "A collaborative ordering webapp that has 'Incoming Orders' tracker which syncs table-wide data to alert users of items already being incoming.",
+      "An ordering webapp that has 'Incoming Orders' tracker which syncs table-wide data to alert users of items already being incoming.",
     type: 'From Scratch',
     stack: [
       'Next.js',
@@ -19,7 +19,7 @@ const projects = [
       'Mongoose',
       'MongoDB',
     ],
-    link: 'https://group-ordering.vercel.app/menu?sessionId=693832a3dca0be8fb74a549e&table=2',
+    link: 'https://dinetogether.vercel.app/menu?sessionId=693832a3dca0be8fb74a549e&table=2',
     github: 'https://github.com/Imperator7/Group-ordering',
     stage: 'In Development',
   },
