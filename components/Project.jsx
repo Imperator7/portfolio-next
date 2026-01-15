@@ -17,13 +17,15 @@ export default function Project({
 }) {
   return (
     <div className="relative w-full max-w-2xl rounded-4xl bg-gray backdrop-blur-sm overflow-hidden">
-      <div className="relative w-full sm:h-52 aspect-[16/9] overflow-hidden">
+      <div className="relative w-full h-40 sm:h-65 aspect-[16/9] overflow-hidden">
         <Image
           src={`/${img}`}
-          fill
+          height={0}
+          width={0}
           alt={name}
-          quality={90}
-          className="object-cover scale-105"
+          sizes="100vw"
+          quality={75}
+          style={{ width: '100%', height: 'auto' }}
         />
         <ProjectStatusBar stage={stage} />
       </div>
