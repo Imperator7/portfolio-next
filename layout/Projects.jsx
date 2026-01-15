@@ -5,6 +5,17 @@ import Project from '../components/Project'
 
 const projects = [
   {
+    name: 'Note easy',
+    img: 'picture/note-easy.png',
+    description:
+      'A note-taking application featuring task categorization, sorting options, and full CRUD capabilities for efficient task management.',
+    type: 'From Scratch',
+    stack: ['Nuxt.js', 'Typescript', 'Tailwind', 'Nuxt-auth-utils', 'Zod'],
+    link: 'https://note-easy--note-easy-8ce41.asia-southeast1.hosted.app/auth/login',
+    github: 'https://github.com/Imperator7/note-easy',
+    stage: 'In Development',
+  },
+  {
     name: 'Dine Together',
     img: 'picture/group-ordering.png',
     description:
