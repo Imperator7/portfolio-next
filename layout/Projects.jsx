@@ -30,7 +30,7 @@ const projects = [
       'Mongoose',
       'MongoDB',
     ],
-    link: 'https://dinetogether.vercel.app/menu?sessionId=693832a3dca0be8fb74a549e&table=2',
+    link: 'https://dinetogether.vercel.app/menu?sessionId=693ea3989a5a96f6d2f93388&table=8',
     github: 'https://github.com/Imperator7/Group-ordering',
     stage: 'In Development',
   },
