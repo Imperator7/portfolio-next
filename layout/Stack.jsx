@@ -3,6 +3,8 @@ import TechStack from '@/components/TechStack'
 const stacks = [
   { name: 'react', role: 'frontend', description: 'UI library' },
   { name: 'next', role: 'frontend', description: 'React framework' },
+  { name: 'vue', role: 'frontend', description: 'UI library' },
+  { name: 'nuxt', role: 'frontend', description: 'vue framework' },
   {
     name: 'javascript',
     role: 'languages',
@@ -19,6 +21,8 @@ const stacks = [
   { name: 'prisma', role: 'database', description: 'Type-safe ORM' },
   { name: 'github action', role: 'devops', description: 'CI/CD workflow' },
   { name: 'docker', role: 'devops', description: 'App container' },
+  { name: 'vercel', role: 'devops', description: 'PaaS for app hosting' },
+  { name: 'firebase', role: 'devops', description: 'Cloud for app hosting' },
   { name: 'zod', role: 'tools', description: 'Schema validator' },
   { name: 'tailwind', role: 'frontend', description: 'CSS framework' },
   { name: 'figma', role: 'frontend', description: 'Design tool' },
@@ -31,7 +35,7 @@ const ROLE_TITLES = {
   backend: 'Backend',
   languages: 'Languages',
   database: 'Database',
-  devops: 'DevOps',
+  devops: 'DevOps & Cloud',
   tools: 'Tools',
 }
 
@@ -65,7 +69,7 @@ const Stack = () => {
             <h2 className="text-3xl font-bold mb-4 text-white">
               {ROLE_TITLES[role]}
             </h2>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+            <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-[90%]">
               {items.map((s) => (
                 <TechStack key={s.name} tech={s.name} />
               ))}

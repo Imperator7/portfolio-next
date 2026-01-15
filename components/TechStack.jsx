@@ -18,7 +18,11 @@ import {
   SiFigma,
   SiReactquery,
   SiMockserviceworker,
+  SiVercel,
+  SiVuedotjs,
+  SiNuxtdotjs,
 } from 'react-icons/si'
+import { IoLogoFirebase } from 'react-icons/io5'
 
 const icons = {
   react: SiReact,
@@ -40,6 +44,10 @@ const icons = {
   figma: SiFigma,
   'react query': SiReactquery,
   msw: SiMockserviceworker,
+  vue: SiVuedotjs,
+  nuxt: SiNuxtdotjs,
+  vercel: SiVercel,
+  firebase: IoLogoFirebase,
 }
 
 const brandColor = {
@@ -62,6 +70,10 @@ const brandColor = {
   figma: 'text-white',
   'react query': 'text-rose-600',
   msw: 'text-orange-600',
+  vue: 'text-emerald-600',
+  nuxt: 'text-green-400',
+  vercel: 'text-black',
+  firebase: 'text-amber-400',
 }
 
 const aliases = {
