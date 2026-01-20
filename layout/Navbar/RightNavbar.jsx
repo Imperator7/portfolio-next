@@ -1,7 +1,21 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import NavLink from './NavLink'
 import { FaArrowUp } from 'react-icons/fa6'
 
-export default function RightNavbar({ navList, scrolled }) {
+export default function RightNavbar({ navList }) {
+  const [scrolled, setScrolled] = useState(false)
+
+  const SCROLL_PIXEL_THRESHOLD = 50
+
+  const onScroll = () => setScrolled(window.scrollY > SCROLL_PIXEL_THRESHOLD)
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <div
       className={[
