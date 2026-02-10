@@ -13,7 +13,7 @@ const projects = [
     stack: ['Nuxt.js', 'Typescript', 'Tailwind', 'Nuxt-auth-utils', 'Zod'],
     link: 'https://note-easy--note-easy-8ce41.asia-southeast1.hosted.app/auth/login',
     github: 'https://github.com/Imperator7/note-easy',
-    stage: 'In Development',
+    stage: 'Completed',
   },
   {
     name: 'Dine Together',
@@ -89,7 +89,9 @@ const ProjectsSectionByType = ({ type, projects }) => {
       <div className="flex  flex-row gap-y-8 flex-wrap gap-x-8">
         {projects.map(
           (project) =>
-            project.type === type && <Project {...project} key={project.name} />
+            project.type === type && (
+              <Project {...project} key={project.name} />
+            ),
         )}
       </div>
     </div>
