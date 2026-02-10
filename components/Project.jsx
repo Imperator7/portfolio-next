@@ -60,7 +60,7 @@ export default function Project({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Try ${name}'s demo`}
-              className="bg-green-600 pl-4 pr-3 py-2 rounded-xl inline-flex items-center gap-0.5 hover:-translate-y-1 active:translate-y-1 transition-transform duration-150 ease-in-out caret-transparent"
+              className="bg-green-600 pl-4 pr-3 py-2 rounded-xl inline-flex items-center gap-0.5 hover:-translate-y-1 active:translate-y-1 transition-all duration-150 ease-in-out caret-transparent shadow-md hover:shadow-lg shadow-black"
             >
               <span className="hidden sm:inline-flex font-semibold text-nowrap mx-1">
                 Try now!

@@ -9,7 +9,7 @@ const ResumeDownload = ({ position }) => {
         rel="noopener noreferrer"
         download
         className={[
-          'btn bg-green-600/80 backdrop-blur-xs cursor-pointer max-w-fit caret-transparent flex items-center gap-1 pointer-events-auto',
+          'btn bg-green-600/80 hover:bg-green-400/80 backdrop-blur-xs cursor-pointer max-w-fit caret-transparent flex items-center gap-1 pointer-events-auto transition-colors duration-150',
           position === 'top' ? 'hidden lg:inline-flex' : '',
         ].join(' ')}
       >
