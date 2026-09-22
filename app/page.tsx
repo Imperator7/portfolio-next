@@ -9,6 +9,7 @@ import Badges from './../layout/Badges'
 export default function Home() {
   const navList = [
     'About me',
+    'Certifications',
     'Projects',
     'Tech stack',
     'Contacts',
@@ -32,7 +33,7 @@ export default function Home() {
           <div id="About me">
             <AboutMe />
           </div>
-          <div id="Certs">
+          <div id="Certifications">
             <Badges />
           </div>
           <h3 id="Projects">
