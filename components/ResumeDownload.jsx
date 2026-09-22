@@ -4,7 +4,7 @@ const ResumeDownload = ({ position }) => {
   return (
     <div>
       <a
-        href="/files/Resume_Rungroj_Rungsaranon.pdf"
+        href="/files/Rungroj_Rungsaranon_Resume.pdf"
         target="_blank"
         rel="noopener noreferrer"
         download
