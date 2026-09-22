@@ -4,6 +4,7 @@ import AboutMe from '../layout/AboutMe'
 import Stack from '../layout/Stack'
 import Projects from '../layout/Projects'
 import Contact from '../layout/Contact'
+import Badges from './../layout/Badges'
 
 export default function Home() {
   const navList = [
@@ -27,18 +28,23 @@ export default function Home() {
         ].join(' ')}
       >
         <LandingProfile navList={navList}></LandingProfile>
-        <div id="About me">
-          <AboutMe />
+        <div>
+          <div id="About me">
+            <AboutMe />
+          </div>
+          <div id="Certs">
+            <Badges />
+          </div>
+          <h3 id="Projects">
+            <Projects />
+          </h3>
+          <h3 id="Tech stack">
+            <Stack />
+          </h3>
+          <h3 id="Contacts">
+            <Contact />
+          </h3>
         </div>
-        <h3 id="Projects">
-          <Projects />
-        </h3>
-        <h3 id="Tech stack">
-          <Stack />
-        </h3>
-        <h3 id="Contacts">
-          <Contact />
-        </h3>
       </main>
     </div>
   )
