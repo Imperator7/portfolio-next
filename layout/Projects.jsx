@@ -85,7 +85,9 @@ const projects = [
 const ProjectsSectionByType = ({ type, projects }) => {
   return (
     <div>
-      <h3 className="secondary-topic-text">{type}</h3>
+      {type !== 'From Scratch' && (
+        <h3 className="secondary-topic-text">{type}</h3>
+      )}
       <div className="flex  flex-row gap-y-8 flex-wrap gap-x-8">
         {projects.map(
           (project) =>
@@ -111,6 +113,7 @@ const Projects = () => {
     <Section>
       <div>
         <h2 className="topic-text">Projects</h2>
+
         <div className="flex flex-col gap-y-8">
           {
             <ProjectsSectionByType
