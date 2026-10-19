@@ -19,6 +19,6 @@ html {
   }
 
   .liquid-glass {
-    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-[4px] text-shadow-lg border border-black/10;
+    @apply relative px-4 py-1 rounded-3xl bg-white/20 backdrop-blur-xs text-shadow-lg border border-black/10;
   }
 }
