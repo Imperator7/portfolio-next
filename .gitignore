@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# terraform 
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
