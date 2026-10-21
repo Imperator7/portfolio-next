@@ -1,8 +1,3 @@
-provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"
-}
-
 resource "aws_cloudfront_origin_access_control" "s3_oac" {
   name                              = "portfolio-site-oac"
   origin_access_control_origin_type = "s3"
