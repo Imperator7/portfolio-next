@@ -1,3 +1,8 @@
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
+}
+
 resource "aws_cloudfront_origin_access_control" "s3_oac" {
   name                              = "portfolio-site-oac"
   origin_access_control_origin_type = "s3"
@@ -14,6 +19,12 @@ resource "aws_cloudfront_function" "rewrite_url" {
 
 data "aws_cloudfront_cache_policy" "caching_optimized" {
   name = "Managed-CachingOptimized"
+}
+
+data "aws_acm_certificate" "portfolio_site_cert" {
+  provider = aws.us_east_1
+  domain   = "rungroj.dev"
+  statuses = ["ISSUED"]
 }
 
 // cloudfront setup
@@ -54,8 +65,12 @@ resource "aws_cloudfront_distribution" "cloudfront_portfolio" {
     }
   }
 
+  aliases = ["rungroj.dev", "www.rungroj.dev"]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = data.aws_acm_certificate.portfolio_site_cert.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 }
 
