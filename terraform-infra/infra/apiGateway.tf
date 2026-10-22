@@ -21,8 +21,9 @@ resource "aws_apigatewayv2_api_mapping" "api" {
 }
 
 resource "aws_apigatewayv2_api" "portfolio_api_gateway" {
-  name          = "portfolio-contact-api"
-  protocol_type = "HTTP"
+  name                         = "portfolio-contact-api"
+  protocol_type                = "HTTP"
+  disable_execute_api_endpoint = true
 
   cors_configuration {
     allow_origins = ["https://rungroj.dev", "https://www.rungroj.dev", "https://rungroj-portfolio.vercel.app/"]
