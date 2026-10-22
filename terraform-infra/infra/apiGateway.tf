@@ -25,7 +25,7 @@ resource "aws_apigatewayv2_api" "portfolio_api_gateway" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["https://rungroj.dev", "https://www.rungroj.dev", "rungroj-portfolio.vercel.app"]
+    allow_origins = ["https://rungroj.dev", "https://www.rungroj.dev", "https://rungroj-portfolio.vercel.app/"]
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["Content-Type", "Authorization"]
     max_age       = 300
