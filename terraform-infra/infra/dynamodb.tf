@@ -7,4 +7,8 @@ resource "aws_dynamodb_table" "contact_messages" {
     name = "id"
     type = "S"
   }
+
+  server_side_encryption {
+    enabled = true
+  }
 }
