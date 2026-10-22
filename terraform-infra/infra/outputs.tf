@@ -9,3 +9,7 @@ output "distribution_id" {
 output "bucket_name" {
   value = aws_s3_bucket.s3_static_hosting.bucket
 }
+
+output "api_endpoint" {
+  value = aws_apigatewayv2_stage.stage_api_gateway.invoke_url
+}
