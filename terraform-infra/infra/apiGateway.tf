@@ -1,14 +1,35 @@
+data "aws_acm_certificate" "api_cert" {
+  domain   = "api.rungroj.dev"
+  statuses = ["ISSUED"]
+  region   = "ap-southeast-7"
+}
+
+resource "aws_apigatewayv2_domain_name" "api_gateway" {
+  domain_name = "api.rungroj.dev"
+
+  domain_name_configuration {
+    certificate_arn = data.aws_acm_certificate.api_cert.arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+}
+
+resource "aws_apigatewayv2_api_mapping" "api" {
+  api_id      = aws_apigatewayv2_api.portfolio_api_gateway.id
+  stage       = aws_apigatewayv2_stage.stage_api_gateway.id
+  domain_name = aws_apigatewayv2_domain_name.api_gateway.id
+}
+
 resource "aws_apigatewayv2_api" "portfolio_api_gateway" {
   name          = "portfolio-contact-api"
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["https://rungroj.dev", "http://localhost:3000"]
+    allow_origins = ["https://rungroj.dev", "https://www.rungroj.dev"]
     allow_methods = ["POST", "OPTIONS"]
     allow_headers = ["Content-Type", "Authorization"]
     max_age       = 300
   }
-
 }
 
 resource "aws_apigatewayv2_integration" "portfolio_api_gateway" {
