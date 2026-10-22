@@ -43,12 +43,12 @@ data "archive_file" "contact_lambda" {
 
 // create lambda function
 resource "aws_lambda_function" "contact_message" {
-  function_name    = "portfolio-contact"
-  role             = aws_iam_role.contact_lambda.arn
-  runtime          = "nodejs22.x"
-  handler          = "index.handler"
-  filename         = data.archive_file.contact_lambda.output_path
-  source_code_hash = data.archive_file.contact_lambda.output_base64sha256
+  function_name                  = "portfolio-contact"
+  role                           = aws_iam_role.contact_lambda.arn
+  runtime                        = "nodejs22.x"
+  handler                        = "index.handler"
+  filename                       = data.archive_file.contact_lambda.output_path
+  source_code_hash               = data.archive_file.contact_lambda.output_base64sha256
 
   environment {
     variables = {
