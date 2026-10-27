@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -39,3 +39,55 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# terraform 
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.zip
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfplan
+tfplan
+.terraformrc
+terraform.rc
+
+# secrets and credentials (keep example env files)
+!.env.example
+*.key
+*.p12
+*.pfx
+credentials
+.aws/
+
+# logs
+*.log
+logs/
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# AI coding agents (AI-DLC, Claude Code, Kiro, Amazon Q)
+# Shared rules are committed: CLAUDE.md, AGENTS.md, .aidlc-rule-details/,
+# .kiro/steering/, .amazonq/rules/, and aidlc-docs/ (design + decision record).
+# Personal settings, caches and anything that can hold tokens stay local:
+.claude/settings.local.json
+.claude/*.local.*
+.claude/worktrees/
+CLAUDE.local.md
+AGENTS.local.md
+.mcp.local.json
+.kiro/settings/
+.amazonq/mcp.json
+.amazonq/cache/
+.aider*
