@@ -1,0 +1,302 @@
+/*
+ * Design tokens. Mirrors the YAML front matter of DESIGN.md (v4): keep the
+ * two in sync. Each token becomes a Tailwind utility, e.g.
+ * --color-accent -> bg-accent / text-accent, --text-heading-1 -> text-heading-1,
+ * --radius-md -> rounded-md.
+ *
+ * Spacing uses Tailwind's 4px scale, which lines up with DESIGN.md:
+ * xxs 1 · xs 2 · sm 3 · md 4 · lg 6 · xl 8 · xxl 12 (p-4 = 16px = md).
+ */
+
+@theme {
+  /* Colors: dark page by default (light overrides at the end of this file);
+     the hero, menu and toasts stay dark in both themes. */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+  /* Dark palette. Contrast on canvas: ink 17:1, muted 8.4:1, faint 5.6:1,
+     accent-ink 19:1, danger 6.4:1. on-accent on accent fills is 17:1. */
+  --color-canvas: #0d0f13;
+  --color-surface: #151820;
+  --color-sunken: #1e222c;
+  --color-ink: #eef0f4;
+  --color-muted: #a7adb8;
+  --color-faint: #8a909b;
+  --color-hairline: rgb(255 255 255 / 0.08);
+  --color-hairline-strong: rgb(255 255 255 / 0.18);
+  /* Monochrome accent: white on the dark page (near-black on light). accent
+     is a fill with on-accent text on it (17:1); accent-ink is for links and
+     highlighted text. Color comes only from content: AWS orange, the green
+     live dot, success green, brand and service icons. */
+  --color-accent: #f4f5f7;
+  --color-accent-hover: #d9dde4;
+  --color-accent-soft: rgb(255 255 255 / 0.1);
+  --color-accent-ink: #ffffff;
+  --color-on-accent: #0d0f13;
+  --color-danger: #f87171;
+  --color-success: #22a35a;
+
+  /* The photo hero is the one dark surface. */
+  --color-night: #0e0e11;
+  --color-on-night: #fafafa;
+  --color-on-night-muted: rgb(250 250 250 / 0.78);
+  --color-success-on-night: #4ade80;
+  /* The "live" status dot: a vivid green that glows on dark and on white. */
+  --color-live: #16e06a;
+  --color-accent-on-night: #ffffff;
+  --color-danger-on-night: #fca5a5;
+  /* AWS brand orange, for the certification highlight on the photo. */
+  --color-aws: #ff9900;
+  --color-glass: rgb(255 255 255 / 0.14);
+  --color-glass-line: rgb(255 255 255 / 0.32);
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* The name in the hero's bottom-left corner (set in uppercase). */
+  --text-name: clamp(3.25rem, 8vw, 7.5rem);
+  --text-name--line-height: 0.85;
+  --text-name--letter-spacing: 0.05em;
+  --text-name--font-weight: 500;
+
+  --text-display: clamp(2rem, 4.2vw, 4.25rem);
+  --text-display--line-height: 1.12;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 500;
+
+  --text-heading-1: clamp(2rem, 4.4vw, 3.5rem);
+  --text-heading-1--line-height: 1.08;
+  --text-heading-1--letter-spacing: -0.03em;
+  --text-heading-1--font-weight: 500;
+
+  --text-heading-2: clamp(1.5rem, 2.6vw, 2.25rem);
+  --text-heading-2--line-height: 1.15;
+  --text-heading-2--letter-spacing: -0.02em;
+  --text-heading-2--font-weight: 500;
+
+  --text-heading-3: 1.25rem;
+  --text-heading-3--line-height: 1.35;
+  --text-heading-3--letter-spacing: -0.01em;
+  --text-heading-3--font-weight: 500;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.65;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.55;
+
+  --text-button: 0.9375rem;
+  --text-button--line-height: 1;
+  --text-button--font-weight: 600;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.3;
+  --text-label--font-weight: 500;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  /* Layout */
+  --spacing-section: 5rem;
+  --spacing-section-lg: 8rem;
+  --container-content: 76rem;
+  --container-prose: 65ch;
+
+  /* Motion: one ease (exponential ease-out) for everything. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-settle: settle 1400ms var(--ease-out-expo) both;
+  --animate-rise: rise 1200ms 120ms var(--ease-out-expo) both;
+  --animate-halo: halo 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  /* A shine crossing a badge, then a pause before the next pass. */
+  --animate-glint: glint 4.5s ease-in-out infinite;
+
+  @keyframes glint {
+    0% {
+      background-position: 150% 0;
+    }
+    30%,
+    100% {
+      background-position: -50% 0;
+    }
+  }
+  --animate-pop: pop 500ms var(--ease-out-expo) both;
+  /* The message form's photo when a message is sent: a quick happy bounce. */
+  --animate-thump: thump 700ms var(--ease-out-expo) both;
+  @keyframes thump {
+    0% {
+      scale: 1;
+    }
+    25% {
+      scale: 0.9;
+    }
+    60% {
+      scale: 1.08;
+    }
+    100% {
+      scale: 1;
+    }
+  }
+  /* Success: stroke draws in (needs pathLength=1 and stroke-dasharray: 1),
+     a ring bursts outward, sparks fly along --angle. */
+  --animate-draw: draw 450ms var(--ease-out-expo) both;
+  --animate-burst: burst 700ms var(--ease-out-expo) both;
+  --animate-spark: spark 650ms var(--ease-out-expo) both;
+  /* A rule drawing in from the left (the hero surname's line). */
+  --animate-grow-x: grow-x 1200ms 400ms var(--ease-out-expo) both;
+  /* Send button: the arrow rides the disc's stretch, then launches off the
+     right edge; the spinner appears in its place (set its delay). */
+  --animate-launch: launch 750ms var(--ease-out-expo) both;
+  --animate-appear: appear 350ms var(--ease-out-expo) both;
+
+  @keyframes launch {
+    0%,
+    55% {
+      transform: none;
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(18px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes appear {
+    from {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes grow-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes burst {
+    from {
+      transform: scale(0.6);
+      opacity: 0.9;
+    }
+    to {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes spark {
+    from {
+      transform: rotate(var(--angle)) translateX(6px) scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: rotate(var(--angle)) translateX(var(--spark-distance, 20px)) scale(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(0) rotate(-45deg);
+    }
+    60% {
+      transform: scale(1.25) rotate(0deg);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes settle {
+    from {
+      transform: scale(1.06);
+      filter: blur(6px);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(0.3em);
+    }
+  }
+
+  /* A soft ring that breathes out of the live dot and fades. */
+  @keyframes halo {
+    from {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    to {
+      transform: scale(2.8);
+      opacity: 0;
+    }
+  }
+}
+
+/* Light theme: the same tokens, swapped. Dark is the default; an inline
+   script in app/layout.tsx sets data-theme="light" from the visitor's saved
+   choice before first paint. Contrast on canvas: muted 7.1:1, faint 5.0:1,
+   accent-ink 15:1, danger 6.0:1. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-canvas: #e7ebf1;
+  --color-surface: #f6f8fb;
+  --color-sunken: #d9dfe8;
+  --color-ink: #12151b;
+  --color-muted: #464c57;
+  --color-faint: #5b616c;
+  --color-hairline: rgb(18 21 27 / 0.1);
+  --color-hairline-strong: rgb(18 21 27 / 0.22);
+  --color-accent: #12151b;
+  --color-accent-hover: #2a2f38;
+  --color-accent-soft: rgb(18 21 27 / 0.08);
+  --color-accent-ink: #12151b;
+  --color-on-accent: #ffffff;
+  --color-danger: #b42318;
+  --color-success: #15803d;
+}
+
+/* Glass for chrome over the hero photo only. */
+@utility glass {
+  background-color: var(--color-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Fades an element out over its last --fade-size (14rem by default; the
+   hero uses less on phones and tablets). The stops ease the fade out. */
+@utility fade-out-bottom {
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - var(--fade-size, 14rem)),
+    rgb(0 0 0 / 0.92) calc(100% - var(--fade-size, 14rem) * 0.857),
+    rgb(0 0 0 / 0.75) calc(100% - var(--fade-size, 14rem) * 0.679),
+    rgb(0 0 0 / 0.5) calc(100% - var(--fade-size, 14rem) * 0.5),
+    rgb(0 0 0 / 0.27) calc(100% - var(--fade-size, 14rem) * 0.321),
+    rgb(0 0 0 / 0.1) calc(100% - var(--fade-size, 14rem) * 0.143),
+    transparent 100%
+  );
+}
+
+/* The name's tight line-height would crop the surname lockup under it;
+   this pads the line box just enough to keep it whole. */
+@utility wordmark-fit {
+  padding-bottom: 0.22em;
+}

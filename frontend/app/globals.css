@@ -1,0 +1,194 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Phones with a short screen (iPhone SE, 375 × 667): the hero drops its
+   expertise list there so the photo and the name fit. */
+@custom-variant short-phone (@media (max-width: 639.98px) and (max-height: 720px));
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    /* Phones: jumps land the section title level with the floating menu
+       button (titles leave room for it on the right, see Section), so no
+       empty band sits above it. From sm up they land about 20px below the
+       theme and menu buttons (which end at 74px). */
+    scroll-padding-top: 1rem;
+    @media (width >= 40rem) {
+      scroll-padding-top: 6rem;
+    }
+    /* Lets the nav pill animate its width to and from auto. */
+    interpolate-size: allow-keywords;
+    scrollbar-color: var(--color-hairline-strong) var(--color-canvas);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-body text-ink antialiased;
+    caret-color: var(--color-accent);
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  /* Images, icons and controls aren't content to copy: no text-selection
+     highlight when they're clicked, tapped or dragged across, no dragging
+     the badge images out, and no iOS long-press "Save image" sheet. Text
+     (and links to the email, phone and GitHub) stays selectable. */
+  img,
+  svg,
+  button,
+  summary,
+  [aria-hidden='true'],
+  a:is([download], [href^='#'], [href^='/#']) {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Tailwind v4 leaves buttons with the default arrow; every clickable
+     control here shows the hand (links already do). */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary,
+  select {
+    cursor: pointer;
+  }
+
+  ::selection {
+    @apply bg-accent text-on-accent;
+  }
+
+  :focus-visible {
+    @apply rounded-[4px] outline-2 outline-offset-2 outline-accent;
+  }
+
+  /* Open/close cards (<details class="disclosure">): the content eases
+     between 0 and its full height. Relies on interpolate-size (set on html);
+     browsers without ::details-content just open instantly. */
+  details.disclosure::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition:
+      block-size 500ms var(--ease-out-expo),
+      opacity 400ms var(--ease-out-expo),
+      content-visibility 500ms allow-discrete;
+  }
+
+  details.disclosure[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Touch screens (see components/touch-spotlight.tsx): what the scroll brings
+   to the middle of the screen reacts the way hover does on desktop. A request
+   lane plays its flow, arrows and boxes lighting up in order (--step); a
+   closed card nudges its chevron to say "tap me". Outside any layer on
+   purpose, so these states win over the elements' utility classes
+   (border-hairline, text-faint), as hover: variants would. */
+.flow-node,
+.flow-arrow {
+  transition:
+    border-color 500ms var(--ease-out-expo),
+    box-shadow 500ms var(--ease-out-expo),
+    translate 500ms var(--ease-out-expo),
+    color 500ms var(--ease-out-expo);
+  transition-delay: calc(var(--step, 0) * 140ms);
+}
+
+[data-inview] .flow-node {
+  border-color: var(--color-hairline-strong);
+  box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.6);
+  translate: 0 -2px;
+}
+
+[data-inview] .flow-arrow {
+  color: var(--color-ink);
+}
+
+details.disclosure[data-inview]:not([open]) .disclosure-hint {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  animation: hint 1.4s ease-in-out infinite;
+}
+
+@keyframes hint {
+  50% {
+    translate: 0 3px;
+  }
+}
+
+@media (hover: none) {
+  /* A tap presses the control in a little, the touch stand-in for hover. */
+  :is(a, button):active {
+    scale: 0.97;
+  }
+
+  summary:active {
+    scale: 0.99;
+  }
+}
+
+/* About's CEFR ladder: as it scrolls into view, each filled bar rises from
+   the baseline, one after another (each starts a little later via
+   --rise-start). Scroll-driven, so it plays with the scroll and needs no
+   script; browsers without view timelines, and reduced motion, just show
+   the bars. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cefr-rise {
+      animation: cefr-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(20% + var(--rise-start, 0%)) cover calc(30% + var(--rise-start, 0%));
+    }
+  }
+}
+
+@keyframes cefr-rise {
+  from {
+    scale: 1 0.08;
+  }
+}
+
+/* Theme switch reveal (components/theme-toggle.tsx): the new theme is
+   uncovered by a growing circle animated from script, so the view
+   transition's default cross-fade is turned off and the new snapshot sits
+   on top. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}

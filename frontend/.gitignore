@@ -1,0 +1,46 @@
+**/node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+# Environment files: every .env variant, except the committed template.
+.env
+.env.*
+!.env.example
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini
+.vercel
+
+# Terraform (terraform-infra/ in the portfolio repo): state, plans and
+# variables can hold secrets; lambda.zip is built from lambda/.
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+tfplan
+*.zip
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Credentials
+*.pem
+*.key
+*.p12
+*.pfx
+credentials
+.aws/
+
+# Claude Code: shared setup is committed, personal settings stay local.
+.claude/settings.local.json
+.claude/*.local.*
+.claude/worktrees/
+CLAUDE.local.md
