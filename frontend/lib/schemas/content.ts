@@ -57,6 +57,8 @@ export const ServiceSchema = z.enum([
   'api-gateway',
   'lambda',
   'dynamodb',
+  'dynamodb-streams',
+  'ses',
   'terraform',
 ])
 export type Service = z.infer<typeof ServiceSchema>
@@ -64,10 +66,23 @@ export type Service = z.infer<typeof ServiceSchema>
 /**
  * A security or setup detail shown as a chip on a diagram node, e.g. its TLS
  * certificate or "Block Public Access on". `service` gives the chip that
- * service's icon; without it the chip gets a shield.
+ * service's icon; without it the chip gets a shield, or a pin for
+ * `kind: 'region'` (where the service runs).
  */
-const BadgeSchema = z.object({ label: z.string().min(1), service: ServiceSchema.optional() })
+const BadgeSchema = z.object({
+  label: z.string().min(1),
+  service: ServiceSchema.optional(),
+  kind: z.enum(['detail', 'region']).default('detail'),
+})
 export type Badge = z.infer<typeof BadgeSchema>
+
+const LaneStepSchema = z.object({
+  service: ServiceSchema,
+  /** The resource's own name, e.g. a Lambda function's, shown under the service. */
+  name: z.string().min(1).optional(),
+  role: z.string().min(1),
+  badges: z.array(BadgeSchema).default([]),
+})
 
 const ArchitectureLaneSchema = z.object({
   /** What the visitor is doing, e.g. "Opening the site". */
@@ -76,15 +91,17 @@ const ArchitectureLaneSchema = z.object({
   from: z.string().min(1),
   /** The hostname this lane is reached on, e.g. "api.rungroj.dev". */
   host: z.string().min(1),
-  steps: z
-    .array(
-      z.object({
-        service: ServiceSchema,
-        role: z.string().min(1),
-        badges: z.array(BadgeSchema).default([]),
-      }),
-    )
-    .min(1),
+  steps: z.array(LaneStepSchema).min(1),
+  /** With a continuation: what the first row is, e.g. "while the visitor waits". */
+  phase: z.string().min(1).optional(),
+  /**
+   * The same line carrying on asynchronously, e.g. a DynamoDB Stream feeding
+   * another Lambda: a second row, joined to the first by an elbow line and
+   * labelled `label` (e.g. "then, in the background").
+   */
+  continuation: z
+    .object({ label: z.string().min(1), steps: z.array(LaneStepSchema).min(1) })
+    .optional(),
 })
 
 export const ProjectSchema = z.object({
@@ -105,6 +122,8 @@ export const ProjectSchema = z.object({
   /** Where the domain lives; every lane of the diagram branches from it. */
   domain: z.object({ service: ServiceSchema, role: z.string().min(1) }).optional(),
   architecture: z.array(ArchitectureLaneSchema).default([]),
+  /** Where most of it runs; boxes in other regions carry their own chip. */
+  homeRegion: z.object({ code: z.string().min(1), name: z.string().min(1) }).optional(),
   /** Supporting pieces shown under the diagram (certificates, IaC). */
   foundations: z
     .array(
