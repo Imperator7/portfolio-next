@@ -29,6 +29,25 @@ resource "aws_iam_role_policy" "contact_lambda_dynamodb" {
   })
 }
 
+data "aws_secretsmanager_secret" "turnstile" {
+  name = "prod/turnstile"
+}
+
+resource "aws_iam_role_policy" "contact_lambda_secrets" {
+  name = "allow-get-turnstile-value"
+  role = aws_iam_role.contact_lambda.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["secretsmanager:GetSecretValue"]
+      Resource = data.aws_secretsmanager_secret.turnstile.arn
+    }]
+  })
+}
+
+
 // attach basic execution policy for lambda
 resource "aws_iam_role_policy_attachment" "contact_lambda_logs" {
   role       = aws_iam_role.contact_lambda.name
