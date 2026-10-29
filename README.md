@@ -33,10 +33,15 @@ flowchart LR
   lambda -->|verify token| turnstile[Cloudflare Turnstile]
   lambda --> ddb[(DynamoDB)]
   lambda -.secret key.-> sm[Secrets Manager]
+  ddb -->|stream: INSERT| notifier[Notifier Lambda]
+  notifier --> ses[SES]
+  ses -->|email| inbox([My inbox])
 ```
 
+- **Regions:** everything runs in the AWS Thailand region (`ap-southeast-7`), except the CloudFront certificate in `us-east-1` (CloudFront only takes certificates from there) and SES in Singapore (`ap-southeast-1`). The API's certificate is in `ap-southeast-7`, beside API Gateway.
 - **Site:** Next.js static export in a private S3 bucket (Block Public Access on), served only through CloudFront with Origin Access Control. HTTPS with ACM certificates; a CloudFront Function maps clean URLs to `.html` files.
-- **Contact API:** API Gateway HTTP API on `api.rungroj.dev`, throttled (burst 10, 5 requests/s) with a CORS allow-list. The Lambda validates the body with zod, checks the Turnstile token with Cloudflare (secret key in Secrets Manager), then saves the message to DynamoDB with encryption at rest.
+- **Contact API:** API Gateway HTTP API on `api.rungroj.dev`, throttled (burst 10, 5 requests/s) with a CORS allow-list. The Lambda validates the body with zod, checks the Turnstile token with Cloudflare (secret key in Secrets Manager), then saves the message to DynamoDB with encryption at rest and point-in-time recovery.
+- **Email notifications:** the table has a DynamoDB Stream (new images). A second Lambda consumes it through an event source mapping filtered to `INSERT` events (one record per batch, two retries) and sends each new message to my inbox with Amazon SES (Singapore) from `noreply@rungroj.dev`. The contact API never waits on email, so a slow or failed send can't break the form.
 - **Infrastructure as code:** all of it in Terraform, with remote state in a private S3 bucket with locking. The domain is registered with Cloudflare.
 
 ## 🛠️ Tech Stack
@@ -47,7 +52,7 @@ flowchart LR
 | **Language** | [TypeScript](https://www.typescriptlang.org/) |
 | **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) with design tokens ([DESIGN.md](frontend/DESIGN.md)) |
 | **Forms and data** | [react-hook-form](https://react-hook-form.com/) + [zod](https://zod.dev/), [TanStack Query](https://tanstack.com/query), [zustand](https://zustand.docs.pmnd.rs/) |
-| **Cloud** | AWS S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB, Secrets Manager |
+| **Cloud** | AWS S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB (+ Streams), SES, Secrets Manager |
 | **Security** | [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/), OAC, S3 Block Public Access |
 | **Infrastructure** | [Terraform](https://www.terraform.io/) |
 
@@ -70,8 +75,9 @@ The site showcases these projects:
 frontend/          the site (Next.js) — see frontend/README.md
 terraform-infra/
   bootstrap/       one-time S3 bucket for Terraform's remote state
-  infra/           S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB
+  infra/           S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB, SES
     lambda/        the contact Lambda (Node.js, zod)
+    notifier/      the email notifier Lambda (DynamoDB Stream → SES)
 ```
 
 ## 🚀 Getting Started

@@ -117,7 +117,8 @@
    purpose, so these states win over the elements' utility classes
    (border-hairline, text-faint), as hover: variants would. */
 .flow-node,
-.flow-arrow {
+.flow-arrow,
+.flow-line {
   transition:
     border-color 500ms var(--ease-out-expo),
     box-shadow 500ms var(--ease-out-expo),
@@ -134,6 +135,27 @@
 
 [data-inview] .flow-arrow {
   color: var(--color-ink);
+}
+
+[data-inview] .flow-line {
+  border-color: var(--color-ink);
+}
+
+/* Desktop: hovering a request path plays it the same way, box by box. */
+@media (hover: hover) {
+  .flow-lane:hover .flow-node {
+    border-color: var(--color-hairline-strong);
+    box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.6);
+    translate: 0 -2px;
+  }
+
+  .flow-lane:hover .flow-arrow {
+    color: var(--color-ink);
+  }
+
+  .flow-lane:hover .flow-line {
+    border-color: var(--color-ink);
+  }
 }
 
 details.disclosure[data-inview]:not([open]) .disclosure-hint {

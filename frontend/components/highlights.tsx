@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   ChevronDown,
   Globe,
+  MapPin,
   MousePointerClick,
   ShieldCheck,
 } from 'lucide-react'
@@ -15,13 +16,17 @@ import StatusPill from '@/components/ui/status-pill'
 import { cn } from '@/lib/cn'
 import type { Badge, Project, Service } from '@/lib/schemas/content'
 
+type Lane = Project['architecture'][number]
+
 /** One box in the diagram: the service's icon, its name and its job. */
 function Node({
   service,
+  name,
   role,
   badges = [],
 }: {
   service: Service
+  name?: string
   role: string
   badges?: Badge[]
 }) {
@@ -32,6 +37,10 @@ function Node({
         <p className="text-body-sm font-semibold">
           {SERVICE_META[service].label}
         </p>
+        {/* Which one: two Lambdas look alike without their names. */}
+        {name && (
+          <p className="font-mono text-label break-all text-faint">{name}</p>
+        )}
         <p className="text-label text-muted">{role}</p>
         {/* Security and setup details: certificates, OAC, Block Public
             Access, remote state. */}
@@ -47,13 +56,16 @@ function Node({
                     service={badge.service}
                     className="size-4 rounded-[3px]"
                   />
+                ) : badge.kind === 'region' ? (
+                  <MapPin aria-hidden className="size-4 shrink-0 text-muted" />
                 ) : (
                   <ShieldCheck
                     aria-hidden
                     className="size-4 shrink-0 text-success"
                   />
                 )}
-                {badge.label}
+                {/* Non-breaking hyphens keep region codes (ap-southeast-7) whole. */}
+                {badge.label.replaceAll('-', '\u2011')}
               </li>
             ))}
           </ul>
@@ -63,16 +75,151 @@ function Node({
   )
 }
 
-function Connector({ step = 0 }: { step?: number }) {
+function Connector({
+  step = 0,
+  place,
+}: {
+  step?: number
+  place?: React.CSSProperties
+}) {
   return (
-    <span
+    <li
       aria-hidden
       className="flow-arrow grid shrink-0 place-items-center text-faint"
-      style={{ '--step': step } as React.CSSProperties}
+      style={{ '--step': step, ...place } as React.CSSProperties}
     >
       <ArrowDown className="size-4 lg:hidden" />
       <ArrowRight className="hidden size-4 lg:block" />
-    </span>
+    </li>
+  )
+}
+
+/** "sync" / "async" with what it means, above a row of the pipeline. */
+function PhaseLabel({
+  kind,
+  children,
+}: {
+  kind: 'sync' | 'async'
+  children: ReactNode
+}) {
+  return (
+    <p className="flex items-center gap-2 text-label text-muted">
+      <span className="rounded-full border border-hairline-strong px-2 py-px font-mono text-ink">
+        {kind}
+      </span>
+      {children}
+    </p>
+  )
+}
+
+/**
+ * One request path as a single line of boxes. On desktop it's a grid with
+ * `columns` box columns shared by every lane (so boxes line up from lane to
+ * lane) and 2rem arrow columns between them. A `continuation` is a second
+ * row, left to right again, joined to the first by an elbow line that turns
+ * down out of the last box; both rows are labelled sync / async. Phones: one
+ * column, in order.
+ */
+function Pipeline({ lane, columns }: { lane: Lane; columns: number }) {
+  const { steps, continuation } = lane
+  // Grid column (1-based) of box i, counting arrow columns between boxes.
+  const col = (i: number) => i * 2 + 1
+  const at = (column: number, row: number): React.CSSProperties => ({
+    gridColumn: column,
+    gridRow: row,
+  })
+  const row = (items: Lane['steps'], gridRow: number, base: number) =>
+    items.map((step, i) => (
+      <Fragment key={step.service}>
+        {i > 0 && <Connector step={base + i * 2 - 1} place={at(col(i) - 1, gridRow)} />}
+        <li
+          className="flex"
+          style={{ '--step': base + i * 2, ...at(col(i), gridRow) } as React.CSSProperties}
+        >
+          <Node
+            service={step.service}
+            name={step.name}
+            role={step.role}
+            badges={step.badges}
+          />
+        </li>
+      </Fragment>
+    ))
+
+  // The elbow runs from the centre of the first row's last box to the centre
+  // of the second row's first box. Box width, as a share of the lane.
+  const box = `((100% - ${(columns - 1) * 2}rem) / ${columns})`
+  const turn = steps.length - 1
+  const from = `calc(${box} / 2)`
+  const span = `calc(${turn} * (${box} + 2rem))`
+  const base = steps.length * 2
+
+  return (
+    <>
+      {continuation && lane.phase && (
+        <div className="mb-3">
+          <PhaseLabel kind="sync">{lane.phase}</PhaseLabel>
+        </div>
+      )}
+      <ol
+        className="flex flex-col gap-2 lg:grid lg:grid-cols-(--flow-cols) lg:items-stretch lg:gap-0"
+        style={
+          {
+            '--flow-cols': `repeat(${columns - 1}, minmax(0, 1fr) 2rem) minmax(0, 1fr)`,
+          } as React.CSSProperties
+        }
+      >
+        {row(steps, 1, 0)}
+        {continuation && (
+          <>
+            {/* Phones: arrow, the async label, arrow. */}
+            <li
+              className="flow-arrow flex flex-col items-center gap-2 py-1 text-faint lg:hidden"
+              style={{ '--step': base - 1 } as React.CSSProperties}
+            >
+              <ArrowDown aria-hidden className="size-4" />
+              <PhaseLabel kind="async">{continuation.label}</PhaseLabel>
+              <ArrowDown aria-hidden className="size-4" />
+            </li>
+            {/* Desktop: the elbow, down out of the last box, across, and down
+                into the next row, with the async label beside it. */}
+            <li
+              className="relative hidden h-16 lg:block"
+              style={{ gridColumn: '1 / -1', gridRow: 2 }}
+            >
+              <span
+                aria-hidden
+                className="flow-line absolute top-0 h-6 rounded-br-sm border-r border-b border-hairline-strong"
+                style={
+                  {
+                    '--step': base - 1,
+                    left: `calc(${from} + 1rem)`,
+                    width: `calc(${span} - 1rem)`,
+                  } as React.CSSProperties
+                }
+              />
+              <span
+                aria-hidden
+                className="flow-line absolute top-6 bottom-1 w-4 rounded-tl-sm border-t border-l border-hairline-strong"
+                style={{ '--step': base - 1, left: from } as React.CSSProperties}
+              />
+              <ChevronDown
+                aria-hidden
+                className="flow-arrow absolute -bottom-1 size-3.5 -translate-x-1/2 text-faint"
+                style={{ '--step': base - 1, left: from } as React.CSSProperties}
+              />
+              <div
+                className="absolute top-8"
+                style={{ left: `calc(${from} + 1.5rem)` }}
+              >
+                <PhaseLabel kind="async">{continuation.label}</PhaseLabel>
+              </div>
+            </li>
+            {row(continuation.steps, 3, base)}
+          </>
+        )}
+      </ol>
+    </>
   )
 }
 
@@ -120,15 +267,32 @@ function DetailCard({
 
 /** The featured project and how it's built; leads the Projects section. */
 export default function Highlights({ project }: { project: Project }) {
+  // The longest row sets the grid, so boxes line up across every row.
+  const columns = Math.max(
+    1,
+    ...project.architecture.flatMap((lane) => [
+      lane.steps.length,
+      lane.continuation?.steps.length ?? 0,
+    ]),
+  )
+
   // Every service in the diagram, once each, for the closed card's preview.
   const services = [
     ...new Set<Service>([
       ...(project.domain ? [project.domain.service] : []),
       ...project.architecture.flatMap((lane) =>
-        lane.steps.map((step) => step.service),
+        [...lane.steps, ...(lane.continuation?.steps ?? [])].map(
+          (step) => step.service,
+        ),
       ),
       ...project.foundations.map((item) => item.service),
-      ...[...project.architecture.flatMap((lane) => lane.steps), ...project.foundations]
+      ...[
+        ...project.architecture.flatMap((lane) => [
+          ...lane.steps,
+          ...(lane.continuation?.steps ?? []),
+        ]),
+        ...project.foundations,
+      ]
         .flatMap((node) => node.badges)
         .flatMap((badge) => (badge.service ? [badge.service] : [])),
     ]),
@@ -204,7 +368,7 @@ export default function Highlights({ project }: { project: Project }) {
                   ))}
                 </ul>
                 <p className="text-body-sm text-muted">
-                  {project.architecture.length} request paths ·{' '}
+                  {project.architecture.length} paths ·{' '}
                   {services.length} services
                 </p>
               </div>
@@ -212,6 +376,17 @@ export default function Highlights({ project }: { project: Project }) {
           >
             <div className="flex flex-col gap-8">
               <div>
+                {project.homeRegion && (
+                  <p className="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-body-sm text-muted">
+                    <MapPin aria-hidden className="size-4 shrink-0" />
+                    Runs in
+                    <span className="rounded-full border border-hairline-strong bg-canvas px-2.5 py-0.5 font-mono text-label text-ink">
+                      {project.homeRegion.code}
+                    </span>
+                    {project.homeRegion.name}; other regions are marked on
+                    their box.
+                  </p>
+                )}
                 {project.domain && (
                   <div>
                     <p className="mb-3 text-body-sm font-medium text-muted">
@@ -237,7 +412,7 @@ export default function Highlights({ project }: { project: Project }) {
                         key={lane.label}
                         data-spotlight
                         className={cn(
-                          'relative',
+                          'flow-lane relative',
                           project.domain && 'pt-8 pl-5 max-sm:pl-3 lg:pl-8',
                         )}
                       >
@@ -256,40 +431,27 @@ export default function Highlights({ project }: { project: Project }) {
                             />
                           </>
                         )}
-                        <p className="mb-3 flex flex-wrap items-center gap-2 text-body-sm font-medium text-muted">
+                        <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-body-sm font-medium text-muted">
                           <span className="rounded-full border border-hairline-strong bg-canvas px-2.5 py-0.5 font-mono text-label text-ink">
                             {lane.host}
                           </span>
                           {lane.label}
-                        </p>
-                        <ol className="flex flex-col gap-2 lg:flex-row lg:items-stretch">
-                          <li className="flex items-center gap-2 rounded-sm px-1 py-2 text-body-sm font-medium text-muted lg:w-32 lg:shrink-0">
+                          <span aria-hidden className="text-faint">
+                            ·
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 font-normal">
                             {lane.from === 'Browser' ? (
-                              <Globe aria-hidden className="size-5 shrink-0" />
+                              <Globe aria-hidden className="size-4 shrink-0" />
                             ) : (
                               <MousePointerClick
                                 aria-hidden
-                                className="size-5 shrink-0"
+                                className="size-4 shrink-0"
                               />
                             )}
-                            {lane.from}
-                          </li>
-                          {lane.steps.map((step, stepIndex) => (
-                            <Fragment key={step.service}>
-                              <Connector step={stepIndex * 2} />
-                              <li
-                                className="flex flex-1"
-                                style={{ '--step': stepIndex * 2 + 1 } as React.CSSProperties}
-                              >
-                                <Node
-                                  service={step.service}
-                                  role={step.role}
-                                  badges={step.badges}
-                                />
-                              </li>
-                            </Fragment>
-                          ))}
-                        </ol>
+                            from the {lane.from.toLowerCase()}
+                          </span>
+                        </p>
+                        <Pipeline lane={lane} columns={columns} />
                       </div>
                     )
                   })}

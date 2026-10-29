@@ -10,9 +10,9 @@ export const projects = z.array(ProjectSchema).parse([
     slug: 'rungroj-dev',
     name: 'rungroj.dev',
     tagline:
-      'My portfolio, live on my own domain and fully serverless on AWS, with a contact API and every resource defined in Terraform.',
+      'My portfolio, live on my own domain and fully serverless on AWS, with a contact API that emails me and every resource in Terraform.',
     summary:
-      'My portfolio, taken from a Vercel side project to production on infrastructure I own. The domain is registered with Cloudflare, the static Next.js site is served from S3 through CloudFront, and the “Leave me a message” form posts to my own serverless API: API Gateway, Lambda and DynamoDB. Every AWS resource is defined in Terraform.',
+      'My portfolio, taken from a Vercel side project to production on infrastructure I own. The domain is registered with Cloudflare, the static Next.js site is served from S3 through CloudFront, and the “Leave me a message” form posts to my own serverless API: API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform.',
     image: '/picture/portfolio.png',
     type: 'from-scratch',
     stage: 'completed',
@@ -27,19 +27,22 @@ export const projects = z.array(ProjectSchema).parse([
       'API Gateway',
       'Lambda',
       'DynamoDB',
+      'SES',
       'Terraform',
       'Zod',
     ],
     highlights: [
-      'Own domain, rungroj.dev, registered through Cloudflare Registrar, with ACM TLS certificates for the site and for api.rungroj.dev.',
+      'Own domain, rungroj.dev, registered through Cloudflare Registrar, with ACM TLS certificates for the site (us-east-1, as CloudFront requires) and for api.rungroj.dev (ap-southeast-7).',
+      'Hosted in the AWS Thailand region (ap-southeast-7); only the CloudFront certificate (us-east-1) and SES (ap-southeast-1, Singapore) live elsewhere.',
       'The static Next.js export is served from a private S3 bucket, with Block Public Access on, through CloudFront; origin access control (OAC) makes CloudFront the only reader.',
-      'The “Leave me a message” form posts to API Gateway on api.rungroj.dev; a Lambda validates it with Zod and stores it in DynamoDB, encrypted at rest.',
+      'The “Leave me a message” form posts to API Gateway on api.rungroj.dev; a Lambda validates it with Zod and stores it in DynamoDB, encrypted at rest, with point-in-time recovery.',
+      'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in Singapore (ap-southeast-1). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
     ],
     domain: {
       service: 'cloudflare',
-      role: 'Cloudflare Registrar holds rungroj.dev; its DNS points both hostnames to AWS',
+      role: 'Holds rungroj.dev; its DNS points both hostnames to AWS',
     },
     architecture: [
       {
@@ -49,9 +52,10 @@ export const projects = z.array(ProjectSchema).parse([
         steps: [
           {
             service: 'cloudfront',
-            role: 'CDN that serves the site over HTTPS',
+            role: 'Global CDN that serves the site over HTTPS',
             badges: [
-              { label: 'TLS cert · ACM', service: 'acm' },
+              // CloudFront only takes certificates from us-east-1.
+              { label: 'TLS cert · ACM · us-east-1', service: 'acm' },
               { label: 'Reads S3 through OAC' },
             ],
           },
@@ -73,13 +77,46 @@ export const projects = z.array(ProjectSchema).parse([
           {
             service: 'api-gateway',
             role: 'Custom domain, throttled, CORS allow-list',
-            badges: [{ label: 'TLS cert · ACM', service: 'acm' }],
+            badges: [{ label: 'TLS cert · ACM · ap-southeast-7', service: 'acm' }],
           },
-          { service: 'lambda', role: 'Validates the message with Zod' },
-          { service: 'dynamodb', role: 'Stores it, encrypted at rest' },
+          {
+            service: 'lambda',
+            name: 'portfolio-contact',
+            role: 'Writer: checks Turnstile, validates with Zod, saves it',
+          },
+          {
+            service: 'dynamodb',
+            role: 'Table: stores the message, encrypted at rest',
+            badges: [{ label: 'Point-in-time recovery' }, { label: 'Stream on' }],
+          },
         ],
+        phase: 'while the visitor waits',
+        // The table's stream is a separate log of its changes. The Lambda
+        // service polls it (event source mapping) and invokes the notifier.
+        continuation: {
+          label: 'then, in the background',
+          steps: [
+            {
+              service: 'dynamodb-streams',
+              role: 'Log of every change to the table, kept 24 h in shards; Lambda polls it',
+              badges: [{ label: 'New item images' }],
+            },
+            {
+              service: 'lambda',
+              name: 'dynamodb_send_email',
+              role: 'Reader: gets each new item from the stream, emails it',
+              badges: [{ label: 'New items only' }, { label: '2 retries' }],
+            },
+            {
+              service: 'ses',
+              role: 'Sends it to my inbox from noreply@rungroj.dev',
+              badges: [{ label: 'ap-southeast-1 · Singapore', kind: 'region' }],
+            },
+          ],
+        },
       },
     ],
+    homeRegion: { code: 'ap-southeast-7', name: 'Thailand' },
     foundations: [
       {
         service: 'terraform',
@@ -112,7 +149,8 @@ export const projects = z.array(ProjectSchema).parse([
           'ACM',
           'API Gateway',
           'Lambda (Node.js)',
-          'DynamoDB',
+          'DynamoDB Streams',
+          'SES',
         ],
       },
       { group: 'Infrastructure', items: ['Terraform', 'Cloudflare Registrar'] },
