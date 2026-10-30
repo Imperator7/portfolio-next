@@ -10,14 +10,14 @@ import { projects } from '@/data/projects'
 import { EXPERTISE, stack } from '@/data/stack'
 
 export default function Home() {
-  const heroProject = projects.find((project) => project.featured) ?? projects[0]
-  const otherProjects = projects.filter((project) => project !== heroProject)
+  const featured = projects.filter((project) => project.featured)
+  const otherProjects = projects.filter((project) => !project.featured)
 
   return (
     <main id="main">
       <SectionObserver />
       <Hero profile={profile} expertise={EXPERTISE} certifications={certifications} />
-      <Work featured={heroProject} others={otherProjects} />
+      <Work featured={featured} others={otherProjects} />
       <Skills items={stack} />
       <About profile={profile} certifications={certifications} />
       <Contact profile={profile} />

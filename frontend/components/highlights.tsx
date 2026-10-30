@@ -265,7 +265,7 @@ function DetailCard({
   )
 }
 
-/** The featured project and how it's built; leads the Projects section. */
+/** A featured project and how it's built; the featured ones lead the Projects section. */
 export default function Highlights({ project }: { project: Project }) {
   // The longest row sets the grid, so boxes line up across every row.
   const columns = Math.max(
@@ -298,15 +298,17 @@ export default function Highlights({ project }: { project: Project }) {
     ]),
   ]
 
+  const titleId = `${project.slug}-title`
+
   return (
     <article
-      aria-labelledby="hero-project-title"
+      aria-labelledby={titleId}
       className="overflow-hidden rounded-md border border-hairline bg-surface"
     >
       <div className="grid lg:grid-cols-12">
         <div className="flex flex-col items-start gap-4 p-6 sm:p-8 lg:col-span-5 lg:p-10">
           <StatusPill live>Live</StatusPill>
-          <h3 id="hero-project-title" className="text-heading-1">
+          <h3 id={titleId} className="text-heading-1">
             {project.name}
           </h3>
           <p className="text-body-lg text-muted">{project.tagline}</p>
@@ -414,6 +416,8 @@ export default function Highlights({ project }: { project: Project }) {
                         className={cn(
                           'flow-lane relative',
                           project.domain && 'pt-8 pl-5 max-sm:pl-3 lg:pl-8',
+                          // No domain tree: plain gaps between the lanes.
+                          !project.domain && index > 0 && 'mt-8',
                         )}
                       >
                         {project.domain && (

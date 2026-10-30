@@ -69,9 +69,9 @@ function ProjectCard({ project }: { project: Project }) {
   )
 }
 
-type WorkProps = { featured: Project; others: Project[] }
+type WorkProps = { featured: Project[]; others: Project[] }
 
-/** Right below the hero: the hero project first, then everything else. */
+/** Right below the hero: the featured projects first, then everything else. */
 export default function Work({ featured, others }: WorkProps) {
   return (
     <Section
@@ -79,9 +79,13 @@ export default function Work({ featured, others }: WorkProps) {
       // Non-breaking "I build": phones wrap it "How I build / projects"
       // instead of stranding "How I" on a line of its own.
       title={'How I build projects'}
-      intro="My hero project, live on my own domain and AWS, then what I built on the way here."
+      intro="Two apps live on AWS, built in Terraform and deployed by GitHub Actions, then what I built on the way here."
     >
-      <Highlights project={featured} />
+      <div className="flex flex-col gap-8 lg:gap-12">
+        {featured.map((project) => (
+          <Highlights key={project.slug} project={project} />
+        ))}
+      </div>
 
       <div className="mt-16 lg:mt-24">
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">

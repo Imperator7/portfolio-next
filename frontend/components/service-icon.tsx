@@ -14,6 +14,8 @@ type ServiceMeta = { label: string } & (
 // AWS services use the official AWS Architecture Icons (07/31/2026 release, in
 // public/aws-icons/), which AWS publishes for architecture diagrams: service
 // icons for the services, the "DynamoDB Stream" resource icon for the stream.
+// WAF, ELB, ECS, RDS, ECR, Systems Manager, EventBridge and CloudWatch come from
+// the same set via the aws-icons npm package (3.3.0).
 // Cloudflare, Terraform and GitHub Actions use their brand logos.
 export const SERVICE_META: Record<Service, ServiceMeta> = {
   cloudflare: { label: 'Cloudflare Registrar', Icon: SiCloudflare, color: '#f38020' },
@@ -31,6 +33,14 @@ export const SERVICE_META: Record<Service, ServiceMeta> = {
   ses: { label: 'Amazon SES', src: '/aws-icons/ses.svg' },
   terraform: { label: 'Terraform', Icon: SiTerraform, color: '#7b42bc' },
   'github-actions': { label: 'GitHub Actions', Icon: SiGithubactions, color: '#2088ff' },
+  waf: { label: 'AWS WAF', src: '/aws-icons/waf.svg' },
+  alb: { label: 'Application Load Balancer', src: '/aws-icons/alb.svg' },
+  ecs: { label: 'Amazon ECS on Fargate', src: '/aws-icons/ecs.svg' },
+  rds: { label: 'Amazon RDS', src: '/aws-icons/rds.svg' },
+  ecr: { label: 'Amazon ECR', src: '/aws-icons/ecr.svg' },
+  ssm: { label: 'SSM Parameter Store', src: '/aws-icons/ssm.svg' },
+  eventbridge: { label: 'EventBridge Scheduler', src: '/aws-icons/eventbridge.svg' },
+  cloudwatch: { label: 'Amazon CloudWatch', src: '/aws-icons/cloudwatch.svg' },
 }
 
 /**

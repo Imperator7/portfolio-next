@@ -61,6 +61,14 @@ export const ServiceSchema = z.enum([
   'ses',
   'terraform',
   'github-actions',
+  'waf',
+  'alb',
+  'ecs',
+  'rds',
+  'ecr',
+  'ssm',
+  'eventbridge',
+  'cloudwatch',
 ])
 export type Service = z.infer<typeof ServiceSchema>
 
