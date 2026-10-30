@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
+import ScreenshotGallery from '@/components/screenshot-gallery'
 import { SERVICE_META, ServiceIcon } from '@/components/service-icon'
 import StatusPill from '@/components/ui/status-pill'
 import { cn } from '@/lib/cn'
@@ -335,18 +336,24 @@ export default function Highlights({ project }: { project: Project }) {
             </a>
           </div>
         </div>
-        <div
-          data-spotlight
-          className="group/shot relative aspect-16/10 overflow-hidden border-t border-hairline bg-sunken lg:col-span-7 lg:aspect-auto lg:border-t-0 lg:border-l"
-        >
-          <Image
-            src={project.image}
-            alt={`Screenshot of ${project.name}`}
-            fill
-            sizes="(min-width: 1024px) 58vw, 100vw"
-            className="object-cover object-top transition-[scale] duration-1000 ease-out-expo group-data-inview/shot:scale-[1.04]"
-          />
-        </div>
+        {project.gallery.length > 1 ? (
+          <div className="border-t border-hairline lg:col-span-7 lg:border-t-0 lg:border-l">
+            <ScreenshotGallery name={project.name} shots={project.gallery} />
+          </div>
+        ) : (
+          <div
+            data-spotlight
+            className="group/shot relative aspect-16/10 overflow-hidden border-t border-hairline bg-sunken lg:col-span-7 lg:aspect-auto lg:border-t-0 lg:border-l"
+          >
+            <Image
+              src={project.image}
+              alt={`Screenshot of ${project.name}`}
+              fill
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              className="object-cover object-top transition-[scale] duration-1000 ease-out-expo group-data-inview/shot:scale-[1.04]"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-3 border-t border-hairline p-3 sm:p-6 lg:p-8">

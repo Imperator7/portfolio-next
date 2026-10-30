@@ -16,6 +16,11 @@ export const projects = z.array(ProjectSchema).parse([
     summary:
       'A full-stack movie ticketing app for Thailand, in Thai or English: pick a showtime and 1–4 seats, pay within 5 minutes by card or PromptPay, get a ticket QR. The hosted demo runs in the AWS Bangkok region, every resource defined in Terraform: CloudFront with WAF serves the static Next.js site from S3 and sends the API through a VPC origin to an internal load balancer, a NestJS container on ECS Fargate, and PostgreSQL on RDS. GitHub Actions tests it, builds the images and deploys it with OIDC.',
     image: '/picture/movie-ticketing.png',
+    gallery: [
+      { src: '/picture/movie-ticketing.png', label: 'Movies' },
+      { src: '/picture/movie-ticketing-detail.png', label: 'Movie detail' },
+      { src: '/picture/movie-ticketing-seats.png', label: 'Seat map' },
+    ],
     type: 'from-scratch',
     stage: 'completed',
     featured: true,
