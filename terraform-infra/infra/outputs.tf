@@ -17,3 +17,7 @@ output "api_endpoint" {
 output "domain_name_api_gateway" {
   value = aws_apigatewayv2_domain_name.api_gateway.domain_name_configuration[0].target_domain_name
 }
+
+output "github_deploy_role_arn" {
+  value = aws_iam_role.github_deploy_frontend.arn
+}
