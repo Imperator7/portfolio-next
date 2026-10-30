@@ -1,0 +1,74 @@
+name: Deploy frontend
+
+# When to run: every push to main that changes the site (or this file),
+# plus a manual "Run workflow" button in the Actions tab.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+  workflow_dispatch:
+
+# The token GitHub gives this run: read the code, and request an OIDC
+# token (id-token: write) that AWS swaps for temporary credentials.
+permissions:
+  contents: read
+  id-token: write
+
+# Two quick pushes never deploy at the same time; the newer one waits.
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Same checks as on your machine: a failure stops the run before
+      # anything reaches S3, so a broken build never goes live.
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build the static site
+        run: npm run build
+        env:
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+
+      - name: Sign in to AWS (OIDC, no stored keys)
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ap-southeast-7
+
+      # --delete removes files from the bucket that are no longer in out/.
+      - name: Upload to S3
+        run: aws s3 sync out/ "s3://${{ vars.S3_BUCKET }}" --delete
+
+      # CloudFront keeps copies at the edge; clear them so visitors get
+      # the new version right away.
+      - name: Invalidate the CloudFront cache
+        run: >
+          aws cloudfront create-invalidation
+          --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}"
+          --paths "/*"
