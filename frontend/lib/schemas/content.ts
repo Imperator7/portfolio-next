@@ -60,6 +60,7 @@ export const ServiceSchema = z.enum([
   'dynamodb-streams',
   'ses',
   'terraform',
+  'github-actions',
 ])
 export type Service = z.infer<typeof ServiceSchema>
 

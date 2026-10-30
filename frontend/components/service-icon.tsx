@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { IconType } from 'react-icons'
-import { SiCloudflare, SiTerraform } from 'react-icons/si'
+import { SiCloudflare, SiGithubactions, SiTerraform } from 'react-icons/si'
 import type { Service } from '@/lib/schemas/content'
 import { cn } from '@/lib/cn'
 
@@ -14,7 +14,7 @@ type ServiceMeta = { label: string } & (
 // AWS services use the official AWS Architecture Icons (07/31/2026 release, in
 // public/aws-icons/), which AWS publishes for architecture diagrams: service
 // icons for the services, the "DynamoDB Stream" resource icon for the stream.
-// Cloudflare and Terraform use their brand logos.
+// Cloudflare, Terraform and GitHub Actions use their brand logos.
 export const SERVICE_META: Record<Service, ServiceMeta> = {
   cloudflare: { label: 'Cloudflare Registrar', Icon: SiCloudflare, color: '#f38020' },
   cloudfront: { label: 'Amazon CloudFront', src: '/aws-icons/cloudfront.svg' },
@@ -30,6 +30,7 @@ export const SERVICE_META: Record<Service, ServiceMeta> = {
   },
   ses: { label: 'Amazon SES', src: '/aws-icons/ses.svg' },
   terraform: { label: 'Terraform', Icon: SiTerraform, color: '#7b42bc' },
+  'github-actions': { label: 'GitHub Actions', Icon: SiGithubactions, color: '#2088ff' },
 }
 
 /**
