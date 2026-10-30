@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
+import ScreenshotGallery from '@/components/screenshot-gallery'
 import { SERVICE_META, ServiceIcon } from '@/components/service-icon'
 import StatusPill from '@/components/ui/status-pill'
 import { cn } from '@/lib/cn'
@@ -265,7 +266,7 @@ function DetailCard({
   )
 }
 
-/** The featured project and how it's built; leads the Projects section. */
+/** A featured project and how it's built; the featured ones lead the Projects section. */
 export default function Highlights({ project }: { project: Project }) {
   // The longest row sets the grid, so boxes line up across every row.
   const columns = Math.max(
@@ -298,15 +299,17 @@ export default function Highlights({ project }: { project: Project }) {
     ]),
   ]
 
+  const titleId = `${project.slug}-title`
+
   return (
     <article
-      aria-labelledby="hero-project-title"
+      aria-labelledby={titleId}
       className="overflow-hidden rounded-md border border-hairline bg-surface"
     >
       <div className="grid lg:grid-cols-12">
         <div className="flex flex-col items-start gap-4 p-6 sm:p-8 lg:col-span-5 lg:p-10">
           <StatusPill live>Live</StatusPill>
-          <h3 id="hero-project-title" className="text-heading-1">
+          <h3 id={titleId} className="text-heading-1">
             {project.name}
           </h3>
           <p className="text-body-lg text-muted">{project.tagline}</p>
@@ -333,18 +336,24 @@ export default function Highlights({ project }: { project: Project }) {
             </a>
           </div>
         </div>
-        <div
-          data-spotlight
-          className="group/shot relative aspect-16/10 overflow-hidden border-t border-hairline bg-sunken lg:col-span-7 lg:aspect-auto lg:border-t-0 lg:border-l"
-        >
-          <Image
-            src={project.image}
-            alt={`Screenshot of ${project.name}`}
-            fill
-            sizes="(min-width: 1024px) 58vw, 100vw"
-            className="object-cover object-top transition-[scale] duration-1000 ease-out-expo group-data-inview/shot:scale-[1.04]"
-          />
-        </div>
+        {project.gallery.length > 1 ? (
+          <div className="border-t border-hairline lg:col-span-7 lg:border-t-0 lg:border-l">
+            <ScreenshotGallery name={project.name} shots={project.gallery} />
+          </div>
+        ) : (
+          <div
+            data-spotlight
+            className="group/shot relative aspect-16/10 overflow-hidden border-t border-hairline bg-sunken lg:col-span-7 lg:aspect-auto lg:border-t-0 lg:border-l"
+          >
+            <Image
+              src={project.image}
+              alt={`Screenshot of ${project.name}`}
+              fill
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              className="object-cover object-top transition-[scale] duration-1000 ease-out-expo group-data-inview/shot:scale-[1.04]"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-3 border-t border-hairline p-3 sm:p-6 lg:p-8">
@@ -414,6 +423,8 @@ export default function Highlights({ project }: { project: Project }) {
                         className={cn(
                           'flow-lane relative',
                           project.domain && 'pt-8 pl-5 max-sm:pl-3 lg:pl-8',
+                          // No domain tree: plain gaps between the lanes.
+                          !project.domain && index > 0 && 'mt-8',
                         )}
                       >
                         {project.domain && (

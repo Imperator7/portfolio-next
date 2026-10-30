@@ -64,6 +64,7 @@ The site showcases these projects:
 
 | Project | Type | Description | Tech Stack |
 | :--- | :--- | :--- | :--- |
+| **[Movie Ticketing](https://d2d95bxlk5dsty.cloudfront.net)** | From Scratch | Seat booking for Thai cinemas, live on AWS in Terraform: CloudFront + WAF, S3, an internal ALB, ECS Fargate and RDS, deployed by GitHub Actions with OIDC. ([repo](https://github.com/Imperator7/Movie-ticketing)) | Next.js, NestJS, PostgreSQL, Docker, ECS Fargate, RDS, Terraform |
 | **[rungroj.dev](https://rungroj.dev)** | From Scratch | This site: fully serverless on AWS, with a contact API and every resource in Terraform. | Next.js, Tailwind, S3, CloudFront, Lambda, DynamoDB, Terraform, GitHub Actions |
 | **[Dine Together](https://github.com/Imperator7/Group-ordering)** | From Scratch | Group ordering: guests scan a table's QR code and order from their phones into one shared session. *In development.* | Next.js, TanStack Query, Zod, MongoDB |
 | **[Task management](https://task-management-rungroj.vercel.app/)** | From Scratch | To-do app against a REST API mocked with MSW: loading and error states, optimistic updates. | React, TypeScript, TanStack Query, Zod, MSW |

@@ -61,6 +61,14 @@ export const ServiceSchema = z.enum([
   'ses',
   'terraform',
   'github-actions',
+  'waf',
+  'alb',
+  'ecs',
+  'rds',
+  'ecr',
+  'ssm',
+  'eventbridge',
+  'cloudwatch',
 ])
 export type Service = z.infer<typeof ServiceSchema>
 
@@ -113,6 +121,13 @@ export const ProjectSchema = z.object({
   /** The case-study opening paragraph. */
   summary: z.string().min(1),
   image: z.string().startsWith('/'),
+  /**
+   * More screenshots for a featured project's card, `image` first. With two
+   * or more, the card shows them as a gallery with labelled thumbnails.
+   */
+  gallery: z
+    .array(z.object({ src: z.string().startsWith('/'), label: z.string().min(1) }))
+    .default([]),
   type: z.enum(['from-scratch', 'figma-to-code']),
   stage: z.enum(['completed', 'in-development']),
   featured: z.boolean(),
