@@ -12,7 +12,7 @@ export const projects = z.array(ProjectSchema).parse([
     tagline:
       'My portfolio, live on my own domain and fully serverless on AWS, with a contact API that emails me and every resource in Terraform.',
     summary:
-      'My portfolio, taken from a Vercel side project to production on infrastructure I own. The domain is registered with Cloudflare, the static Next.js site is served from S3 through CloudFront, and the “Leave me a message” form posts to my own serverless API: API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform.',
+      'My portfolio, taken from a Vercel side project to production on infrastructure I own. The domain is registered with Cloudflare, the static Next.js site is served from S3 through CloudFront, and the “Leave me a message” form posts to my own serverless API: API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform, and every merge to main deploys the site through GitHub Actions.',
     image: '/picture/portfolio.png',
     type: 'from-scratch',
     stage: 'completed',
@@ -29,6 +29,7 @@ export const projects = z.array(ProjectSchema).parse([
       'DynamoDB',
       'SES',
       'Terraform',
+      'GitHub Actions',
       'Zod',
     ],
     highlights: [
@@ -39,6 +40,7 @@ export const projects = z.array(ProjectSchema).parse([
       'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in Singapore (ap-southeast-1). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
+      'Every merge to main deploys the site with GitHub Actions: typecheck, lint and build, then sync to S3 and invalidate CloudFront. It signs in to AWS with OIDC, so no AWS keys are stored in GitHub, and its IAM role trusts only this repo’s main branch and may only write the site bucket and invalidate its distribution.',
     ],
     domain: {
       service: 'cloudflare',
@@ -126,6 +128,14 @@ export const projects = z.array(ProjectSchema).parse([
           { label: 'State locking' },
         ],
       },
+      {
+        service: 'github-actions',
+        role: 'Checks, builds and deploys the site on every merge to main',
+        badges: [
+          { label: 'OIDC · no stored AWS keys' },
+          { label: 'Least-privilege IAM role' },
+        ],
+      },
     ],
     builtWith: [
       {
@@ -153,7 +163,10 @@ export const projects = z.array(ProjectSchema).parse([
           'SES',
         ],
       },
-      { group: 'Infrastructure', items: ['Terraform', 'Cloudflare Registrar'] },
+      {
+        group: 'Infrastructure',
+        items: ['Terraform', 'GitHub Actions (OIDC)', 'Cloudflare Registrar'],
+      },
     ],
     demoUrl: 'https://rungroj.dev',
     repoUrl: 'https://github.com/Imperator7/portfolio-next',

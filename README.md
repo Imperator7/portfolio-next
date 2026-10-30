@@ -43,6 +43,7 @@ flowchart LR
 - **Contact API:** API Gateway HTTP API on `api.rungroj.dev`, throttled (burst 10, 5 requests/s) with a CORS allow-list. The Lambda validates the body with zod, checks the Turnstile token with Cloudflare (secret key in Secrets Manager), then saves the message to DynamoDB with encryption at rest and point-in-time recovery.
 - **Email notifications:** the table has a DynamoDB Stream (new images). A second Lambda consumes it through an event source mapping filtered to `INSERT` events (one record per batch, two retries) and sends each new message to my inbox with Amazon SES (Singapore) from `noreply@rungroj.dev`. The contact API never waits on email, so a slow or failed send can't break the form.
 - **Infrastructure as code:** all of it in Terraform, with remote state in a private S3 bucket with locking. The domain is registered with Cloudflare.
+- **CI/CD:** every merge to `main` that touches the site runs a GitHub Actions workflow: typecheck, lint and build, then sync to S3 and invalidate CloudFront. It signs in to AWS with OIDC, so there are no AWS keys in GitHub: the IAM role trusts only this repo's `main` branch and may only write the site bucket and invalidate its distribution.
 
 ## 🛠️ Tech Stack
 
@@ -55,6 +56,7 @@ flowchart LR
 | **Cloud** | AWS S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB (+ Streams), SES, Secrets Manager |
 | **Security** | [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/), OAC, S3 Block Public Access |
 | **Infrastructure** | [Terraform](https://www.terraform.io/) |
+| **CI/CD** | [GitHub Actions](https://github.com/features/actions) with AWS OIDC |
 
 ## 📂 Featured Projects
 
@@ -62,7 +64,7 @@ The site showcases these projects:
 
 | Project | Type | Description | Tech Stack |
 | :--- | :--- | :--- | :--- |
-| **[rungroj.dev](https://rungroj.dev)** | From Scratch | This site: fully serverless on AWS, with a contact API and every resource in Terraform. | Next.js, Tailwind, S3, CloudFront, Lambda, DynamoDB, Terraform |
+| **[rungroj.dev](https://rungroj.dev)** | From Scratch | This site: fully serverless on AWS, with a contact API and every resource in Terraform. | Next.js, Tailwind, S3, CloudFront, Lambda, DynamoDB, Terraform, GitHub Actions |
 | **[Dine Together](https://github.com/Imperator7/Group-ordering)** | From Scratch | Group ordering: guests scan a table's QR code and order from their phones into one shared session. *In development.* | Next.js, TanStack Query, Zod, MongoDB |
 | **[Task management](https://task-management-rungroj.vercel.app/)** | From Scratch | To-do app against a REST API mocked with MSW: loading and error states, optimistic updates. | React, TypeScript, TanStack Query, Zod, MSW |
 | **[Note easy](https://github.com/Imperator7/note-easy)** | From Scratch | Notes and tasks with categories, sorting and full CRUD behind a sign-in. | Nuxt, Vue, TypeScript, Zod |
@@ -72,10 +74,12 @@ The site showcases these projects:
 ## 🗂️ Repository
 
 ```
+.github/workflows/ deploy-frontend.yml: build and deploy the site on merge to main
 frontend/          the site (Next.js) — see frontend/README.md
 terraform-infra/
   bootstrap/       one-time S3 bucket for Terraform's remote state
-  infra/           S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB, SES
+  infra/           S3, CloudFront, ACM, API Gateway, Lambda, DynamoDB, SES,
+                   and the OIDC role GitHub Actions deploys with
     lambda/        the contact Lambda (Node.js, zod)
     notifier/      the email notifier Lambda (DynamoDB Stream → SES)
 ```
@@ -96,7 +100,13 @@ npm run dev            # http://localhost:3000
 | `npm run typecheck` | TypeScript check |
 | `npm run build` | Static site in `frontend/out/` |
 
-**Deploy:** build, sync `frontend/out/` to the S3 bucket (`aws s3 sync out/ s3://<bucket> --delete`), then invalidate CloudFront (`--paths "/*"`). The bucket name and distribution id come from `terraform output` in `terraform-infra/infra`.
+**Deploy:** automatic. Merging a change to `frontend/` into `main` runs [`.github/workflows/deploy-frontend.yml`](.github/workflows/deploy-frontend.yml):
+
+1. Install, typecheck, lint and build the site. A failure stops the run, so the live site stays as it was.
+2. Sign in to AWS with GitHub's OIDC token: AWS trades it for credentials that last about an hour, for the role `portfolio-github-deploy-frontend` (in `terraform-infra/infra/github-actions.tf`).
+3. Sync `frontend/out/` to the S3 bucket (`--delete` removes old files) and invalidate CloudFront (`/*`).
+
+It can also be started by hand from the repo's **Actions** tab (**Run workflow**). It reads four repository variables (Settings → Secrets and variables → Actions → Variables): `AWS_DEPLOY_ROLE_ARN`, `S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID` (all three from `terraform output` in `terraform-infra/infra`) and `TURNSTILE_SITE_KEY`.
 
 ## 📬 Contact
 
