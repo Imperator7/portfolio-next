@@ -69,6 +69,7 @@ export const ServiceSchema = z.enum([
   'ssm',
   'eventbridge',
   'cloudwatch',
+  'sns',
 ])
 export type Service = z.infer<typeof ServiceSchema>
 

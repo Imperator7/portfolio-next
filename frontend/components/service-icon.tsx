@@ -14,7 +14,7 @@ type ServiceMeta = { label: string } & (
 // AWS services use the official AWS Architecture Icons (07/31/2026 release, in
 // public/aws-icons/), which AWS publishes for architecture diagrams: service
 // icons for the services, the "DynamoDB Stream" resource icon for the stream.
-// WAF, ELB, ECS, RDS, ECR, Systems Manager, EventBridge and CloudWatch come from
+// WAF, ELB, ECS, RDS, ECR, Systems Manager, EventBridge, CloudWatch and SNS come from
 // the same set via the aws-icons npm package (3.3.0).
 // Cloudflare, Terraform and GitHub Actions use their brand logos.
 export const SERVICE_META: Record<Service, ServiceMeta> = {
@@ -41,6 +41,7 @@ export const SERVICE_META: Record<Service, ServiceMeta> = {
   ssm: { label: 'SSM Parameter Store', src: '/aws-icons/ssm.svg' },
   eventbridge: { label: 'EventBridge Scheduler', src: '/aws-icons/eventbridge.svg' },
   cloudwatch: { label: 'Amazon CloudWatch', src: '/aws-icons/cloudwatch.svg' },
+  sns: { label: 'Amazon SNS', src: '/aws-icons/sns.svg' },
 }
 
 /**
