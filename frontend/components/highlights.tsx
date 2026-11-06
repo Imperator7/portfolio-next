@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react'
 import Image from 'next/image'
 import {
+  Activity,
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
@@ -453,6 +454,8 @@ export default function Highlights({ project }: { project: Project }) {
                           <span className="inline-flex items-center gap-1.5 font-normal">
                             {lane.from === 'Browser' ? (
                               <Globe aria-hidden className="size-4 shrink-0" />
+                            ) : lane.from.toLowerCase().endsWith('metrics') ? (
+                              <Activity aria-hidden className="size-4 shrink-0" />
                             ) : (
                               <MousePointerClick
                                 aria-hidden
