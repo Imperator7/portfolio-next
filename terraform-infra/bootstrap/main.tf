@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "state_bucket" {
-  bucket = "state-bucket-portfolio-project"
+  bucket = "state-bucket-rungroj-portfolio-project"
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public_s3" {
