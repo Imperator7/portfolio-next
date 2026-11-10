@@ -4,7 +4,7 @@ import {
   type ContactPayload,
 } from '@/lib/schemas/contact'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://api.rungroj.dev'
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://message.rungroj.dev'
 
 export class ApiError extends Error {
   constructor(

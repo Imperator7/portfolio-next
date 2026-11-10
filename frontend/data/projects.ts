@@ -216,9 +216,9 @@ export const projects = z.array(ProjectSchema).parse([
     slug: 'rungroj-dev',
     name: 'rungroj.dev',
     tagline:
-      'My portfolio runs on Vercel. The serverless AWS contact API, defined in Terraform, is offline during the account migration.',
+      'My portfolio runs on Vercel, with a serverless AWS contact API defined in Terraform.',
     summary:
-      'My portfolio, on my own domain registered with Cloudflare. The static Next.js site runs on Vercel. The serverless AWS contact API is offline during the account migration. Its design uses API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform.',
+      'My portfolio, on my own domain registered with Cloudflare. The static Next.js site runs on Vercel. The contact form posts to message.rungroj.dev, where API Gateway routes requests to Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform.',
     image: '/picture/portfolio.png',
     type: 'from-scratch',
     stage: 'completed',
@@ -237,8 +237,8 @@ export const projects = z.array(ProjectSchema).parse([
       'Zod',
     ],
     highlights: [
-      'Own domain, rungroj.dev, registered through Cloudflare Registrar. The site runs on Vercel while the AWS contact API awaits restoration.',
-      'The contact API design uses API Gateway on api.rungroj.dev (ACM certificate in ap-southeast-7); a Lambda checks Turnstile, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
+      'Own domain, rungroj.dev, registered through Cloudflare Registrar. The site runs on Vercel and the contact form sends messages to message.rungroj.dev.',
+      'The contact API uses API Gateway on message.rungroj.dev. A Lambda checks Turnstile, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
       'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in Singapore (ap-southeast-1). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
@@ -261,9 +261,9 @@ export const projects = z.array(ProjectSchema).parse([
         ],
       },
       {
-        label: 'Contact API (offline during migration)',
+        label: 'Leaving a message',
         from: 'Contact form',
-        host: 'api.rungroj.dev',
+        host: 'message.rungroj.dev',
         steps: [
           {
             service: 'api-gateway',
