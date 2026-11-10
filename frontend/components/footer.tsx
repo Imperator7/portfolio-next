@@ -10,7 +10,7 @@ export default function Footer({ profile }: { profile: Profile }) {
     <footer className="border-t border-hairline">
       <div className="mx-auto flex max-w-content flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
         <p className="text-body-sm text-faint">
-          © {new Date().getFullYear()} {fullName} · Built with Next.js, deployed on AWS
+          © {new Date().getFullYear()} {fullName} · Built with Next.js, hosted on Vercel
         </p>
         <div className="flex gap-2">
           <IconLink label="Email" href={`mailto:${profile.email}`}>

@@ -51,6 +51,7 @@ const LinkSchema = z.object({ label: z.string().min(1), url: z.url() })
 
 export const ServiceSchema = z.enum([
   'cloudflare',
+  'vercel',
   'cloudfront',
   's3',
   'acm',
@@ -135,6 +136,8 @@ export const ProjectSchema = z.object({
   stack: z.array(z.string().min(1)).min(1),
   highlights: z.array(z.string().min(1)).min(1),
   learnings: z.array(z.string().min(1)).default([]),
+  /** A short note shown above the diagram in "How it works". */
+  note: z.string().min(1).optional(),
   /** Request paths drawn as diagrams on the featured project. */
   /** Where the domain lives; every lane of the diagram branches from it. */
   domain: z.object({ service: ServiceSchema, role: z.string().min(1) }).optional(),

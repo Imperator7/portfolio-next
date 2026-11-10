@@ -3,8 +3,7 @@ import { ProjectSchema } from '@/lib/schemas/content'
 
 // Facts come from each repo's README (github.com/Imperator7) and, for
 // rungroj.dev, from the Terraform and Lambda code in terraform-infra/.
-// Order is the order on the page. The one `featured` project is the hero
-// project shown under the hero; the rest are listed as mini learning projects.
+// Featured projects appear first in this order. The rest are mini learning projects.
 export const projects = z.array(ProjectSchema).parse([
   {
     // Facts from github.com/Imperator7/Movie-ticketing: its README and
@@ -12,9 +11,9 @@ export const projects = z.array(ProjectSchema).parse([
     slug: 'movie-ticketing',
     name: 'Movie Ticketing',
     tagline:
-      'Seat booking for Thai cinemas, live on AWS: a NestJS API on ECS Fargate and PostgreSQL on RDS, all in Terraform.',
+      'Seat booking for Thai cinemas with NestJS on ECS Fargate and PostgreSQL on RDS. The demo is offline.',
     summary:
-      'A full-stack movie ticketing app for Thailand, in Thai or English: pick a showtime and 1–4 seats, pay within 5 minutes by card or PromptPay, get a ticket QR. The hosted demo runs in the AWS Bangkok region, every resource defined in Terraform: CloudFront with WAF serves the static Next.js site from S3 and sends the API through a VPC origin to an internal load balancer, NestJS containers on ECS Fargate that scale from 1 to 2 tasks with CPU, and PostgreSQL on RDS. GitHub Actions tests it, builds the images and deploys it with OIDC.',
+      'A full-stack movie ticketing app for Thailand, in Thai or English: pick a showtime and 1–4 seats, pay within 5 minutes by card or PromptPay, get a ticket QR. The demo is offline during the AWS account migration. Its AWS Bangkok deployment is defined in Terraform: CloudFront with WAF serves the static Next.js site from S3 and sends the API through a VPC origin to an internal load balancer, NestJS containers on ECS Fargate that scale from 1 to 2 tasks with CPU, and PostgreSQL on RDS. GitHub Actions tests it, builds the images and deploys it with OIDC.',
     image: '/picture/movie-ticketing.png',
     gallery: [
       { src: '/picture/movie-ticketing.png', label: 'Movies' },
@@ -208,16 +207,18 @@ export const projects = z.array(ProjectSchema).parse([
         ],
       },
     ],
-    demoUrl: 'https://d2d95bxlk5dsty.cloudfront.net',
+    // No demoUrl for now: the hosted demo is down while the AWS setup moves
+    // to a new account (was https://d2d95bxlk5dsty.cloudfront.net).
     repoUrl: 'https://github.com/Imperator7/Movie-ticketing',
   },
   {
+    // The former S3 + CloudFront card is in parked/rungroj-dev-aws.ts.
     slug: 'rungroj-dev',
     name: 'rungroj.dev',
     tagline:
-      'My portfolio, live on my own domain and fully serverless on AWS, with a contact API that emails me and every resource in Terraform.',
+      'My portfolio runs on Vercel. The serverless AWS contact API, defined in Terraform, is offline during the account migration.',
     summary:
-      'My portfolio, taken from a Vercel side project to production on infrastructure I own. The domain is registered with Cloudflare, the static Next.js site is served from S3 through CloudFront, and the “Leave me a message” form posts to my own serverless API: API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform, and every merge to main deploys the site through GitHub Actions.',
+      'My portfolio, on my own domain registered with Cloudflare. The static Next.js site runs on Vercel. The serverless AWS contact API is offline during the account migration. Its design uses API Gateway, Lambda and DynamoDB. Each new message is streamed from DynamoDB to a second Lambda that emails it to me with Amazon SES. Every AWS resource is defined in Terraform.',
     image: '/picture/portfolio.png',
     type: 'from-scratch',
     stage: 'completed',
@@ -226,30 +227,26 @@ export const projects = z.array(ProjectSchema).parse([
       'Next.js',
       'TypeScript',
       'Tailwind CSS',
+      'Vercel',
       'Cloudflare',
-      'S3',
-      'CloudFront',
       'API Gateway',
       'Lambda',
       'DynamoDB',
       'SES',
       'Terraform',
-      'GitHub Actions',
       'Zod',
     ],
     highlights: [
-      'Own domain, rungroj.dev, registered through Cloudflare Registrar, with ACM TLS certificates for the site (us-east-1, as CloudFront requires) and for api.rungroj.dev (ap-southeast-7).',
-      'Hosted in the AWS Thailand region (ap-southeast-7); only the CloudFront certificate (us-east-1) and SES (ap-southeast-1, Singapore) live elsewhere.',
-      'The static Next.js export is served from a private S3 bucket, with Block Public Access on, through CloudFront; origin access control (OAC) makes CloudFront the only reader.',
-      'The “Leave me a message” form posts to API Gateway on api.rungroj.dev; a Lambda validates it with Zod and stores it in DynamoDB, encrypted at rest, with point-in-time recovery.',
+      'Own domain, rungroj.dev, registered through Cloudflare Registrar. The site runs on Vercel while the AWS contact API awaits restoration.',
+      'The contact API design uses API Gateway on api.rungroj.dev (ACM certificate in ap-southeast-7); a Lambda checks Turnstile, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
       'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in Singapore (ap-southeast-1). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
-      'Every merge to main deploys the site with GitHub Actions: typecheck, lint and build, then sync to S3 and invalidate CloudFront. It signs in to AWS with OIDC, so no AWS keys are stored in GitHub, and its IAM role trusts only this repo’s main branch and may only write the site bucket and invalidate its distribution.',
     ],
+    note: 'The Terraform-defined S3 + CloudFront setup can return once CloudFront is available in the new AWS account.',
     domain: {
       service: 'cloudflare',
-      role: 'Holds rungroj.dev; its DNS points both hostnames to AWS',
+      role: 'Holds rungroj.dev and points the site to Vercel',
     },
     architecture: [
       {
@@ -258,26 +255,13 @@ export const projects = z.array(ProjectSchema).parse([
         host: 'rungroj.dev',
         steps: [
           {
-            service: 'cloudfront',
-            role: 'Global CDN that serves the site over HTTPS',
-            badges: [
-              // CloudFront only takes certificates from us-east-1.
-              { label: 'TLS cert · ACM · us-east-1', service: 'acm' },
-              { label: 'Reads S3 through OAC' },
-            ],
-          },
-          {
-            service: 's3',
-            role: 'Private bucket with the static Next.js build',
-            badges: [
-              { label: 'Block Public Access on' },
-              { label: 'Only CloudFront can read (OAC)' },
-            ],
+            service: 'vercel',
+            role: 'Builds and serves the static Next.js site over HTTPS',
           },
         ],
       },
       {
-        label: 'Leaving a message',
+        label: 'Contact API (offline during migration)',
         from: 'Contact form',
         host: 'api.rungroj.dev',
         steps: [
@@ -298,8 +282,6 @@ export const projects = z.array(ProjectSchema).parse([
           },
         ],
         phase: 'while the visitor waits',
-        // The table's stream is a separate log of its changes. The Lambda
-        // service polls it (event source mapping) and invokes the notifier.
         continuation: {
           label: 'then, in the background',
           steps: [
@@ -327,18 +309,10 @@ export const projects = z.array(ProjectSchema).parse([
     foundations: [
       {
         service: 'terraform',
-        role: 'Every AWS resource as code',
+        role: 'Every AWS resource of the API as code',
         badges: [
           { label: 'Remote state in a private S3 bucket', service: 's3' },
           { label: 'State locking' },
-        ],
-      },
-      {
-        service: 'github-actions',
-        role: 'Checks, builds and deploys the site on every merge to main',
-        badges: [
-          { label: 'OIDC · no stored AWS keys' },
-          { label: 'Least-privilege IAM role' },
         ],
       },
     ],
@@ -359,18 +333,17 @@ export const projects = z.array(ProjectSchema).parse([
       {
         group: 'Cloud',
         items: [
-          'S3',
-          'CloudFront',
-          'ACM',
+          'Vercel',
           'API Gateway',
           'Lambda (Node.js)',
           'DynamoDB Streams',
           'SES',
+          'ACM',
         ],
       },
       {
         group: 'Infrastructure',
-        items: ['Terraform', 'GitHub Actions (OIDC)', 'Cloudflare Registrar'],
+        items: ['Terraform', 'Cloudflare Registrar'],
       },
     ],
     demoUrl: 'https://rungroj.dev',

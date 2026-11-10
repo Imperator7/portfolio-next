@@ -13,7 +13,7 @@ export const profile = ProfileSchema.parse({
   intro:
     'I design, build and ship complete web apps, from the UI and API to the cloud they run on. Civil engineer by degree, software developer by practice.',
   about:
-    'I studied civil engineering at Chulalongkorn and moved into software by building small apps and tools all through university. Now I build complete web apps with React, Next.js, Express and TypeScript, and run them on AWS infrastructure I define in Terraform, this site included.',
+    'I studied civil engineering at Chulalongkorn and moved into software by building small apps and tools all through university. Now I build complete web apps with React, Next.js, Express and TypeScript, and define AWS infrastructure in Terraform.',
   education: {
     degree: 'B.Eng. Civil Engineering',
     school: 'Chulalongkorn University',

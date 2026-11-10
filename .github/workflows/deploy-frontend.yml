@@ -1,13 +1,14 @@
 name: Deploy frontend
 
-# When to run: every push to main that changes the site (or this file),
-# plus a manual "Run workflow" button in the Actions tab.
+# Paused: the site is on Vercel while the AWS setup moves to a new account,
+# so pushes no longer deploy to S3. Only the manual "Run workflow" button is
+# left. To resume, add back:
+#   push:
+#     branches: [main]
+#     paths:
+#       - 'frontend/**'
+#       - '.github/workflows/deploy-frontend.yml'
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
 # The token GitHub gives this run: read the code, and request an OIDC

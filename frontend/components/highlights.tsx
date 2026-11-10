@@ -309,22 +309,24 @@ export default function Highlights({ project }: { project: Project }) {
     >
       <div className="grid lg:grid-cols-12">
         <div className="flex flex-col items-start gap-4 p-6 sm:p-8 lg:col-span-5 lg:p-10">
-          <StatusPill live>Live</StatusPill>
+          {project.demoUrl && <StatusPill live>Live</StatusPill>}
           <h3 id={titleId} className="text-heading-1">
             {project.name}
           </h3>
           <p className="text-body-lg text-muted">{project.tagline}</p>
           <div className="mt-auto flex flex-wrap items-center gap-x-5 pt-2 text-button">
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-1 text-accent-ink underline decoration-hairline-strong underline-offset-4 transition-[text-decoration-color] duration-200 hover:decoration-current"
-            >
-              Live site
-              <ArrowUpRight aria-hidden className="size-4" />
-              <span className="sr-only">(opens in a new tab)</span>
-            </a>
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-1 text-accent-ink underline decoration-hairline-strong underline-offset-4 transition-[text-decoration-color] duration-200 hover:decoration-current"
+              >
+                Live site
+                <ArrowUpRight aria-hidden className="size-4" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            )}
             <a
               href={project.repoUrl}
               target="_blank"
@@ -384,6 +386,9 @@ export default function Highlights({ project }: { project: Project }) {
               </div>
             }
           >
+            {project.note && (
+              <p className="mb-6 text-body-sm text-muted">{project.note}</p>
+            )}
             <div className="flex flex-col gap-8">
               <div>
                 {project.homeRegion && (

@@ -79,7 +79,7 @@ export default function Work({ featured, others }: WorkProps) {
       // Non-breaking "I build": phones wrap it "How I build / projects"
       // instead of stranding "How I" on a line of its own.
       title={'How I build projects'}
-      intro="Two apps live on AWS, built in Terraform and deployed by GitHub Actions, then what I built on the way here."
+      intro="Two full-stack projects with AWS infrastructure defined in Terraform, followed by smaller builds."
     >
       <div className="flex flex-col gap-8 lg:gap-12">
         {featured.map((project) => (

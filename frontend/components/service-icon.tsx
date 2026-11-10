@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { IconType } from 'react-icons'
-import { SiCloudflare, SiGithubactions, SiTerraform } from 'react-icons/si'
+import { SiCloudflare, SiGithubactions, SiTerraform, SiVercel } from 'react-icons/si'
 import type { Service } from '@/lib/schemas/content'
 import { cn } from '@/lib/cn'
 
@@ -16,9 +16,10 @@ type ServiceMeta = { label: string } & (
 // icons for the services, the "DynamoDB Stream" resource icon for the stream.
 // WAF, ELB, ECS, RDS, ECR, Systems Manager, EventBridge, CloudWatch and SNS come from
 // the same set via the aws-icons npm package (3.3.0).
-// Cloudflare, Terraform and GitHub Actions use their brand logos.
+// Cloudflare, Vercel, Terraform and GitHub Actions use their brand logos.
 export const SERVICE_META: Record<Service, ServiceMeta> = {
   cloudflare: { label: 'Cloudflare Registrar', Icon: SiCloudflare, color: '#f38020' },
+  vercel: { label: 'Vercel', Icon: SiVercel, color: '#000000' },
   cloudfront: { label: 'Amazon CloudFront', src: '/aws-icons/cloudfront.svg' },
   s3: { label: 'Amazon S3', src: '/aws-icons/s3.svg' },
   acm: { label: 'AWS Certificate Manager', src: '/aws-icons/acm.svg' },
