@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // Mirrors the Lambda's schema behind POST https://message.rungroj.dev/message
-// (terraform-infra/infra/lambda/index.mjs). Keep both in sync.
+// (terraform-infra/infra/message/index.mjs). Keep both in sync.
 export const ContactSchema = z
   .object({
     companyName: z

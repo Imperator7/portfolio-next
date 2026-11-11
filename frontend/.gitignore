@@ -14,7 +14,7 @@ desktop.ini
 .vercel
 
 # Terraform (terraform-infra/ in the portfolio repo): state, plans and
-# variables can hold secrets; lambda.zip is built from lambda/.
+# variables can hold secrets; lambda.zip is built from message/.
 **/.terraform/
 *.tfstate
 *.tfstate.*

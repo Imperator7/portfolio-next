@@ -28,7 +28,7 @@ I'm a **fullstack developer, AWS certified**. I build complete web apps with Rea
 flowchart LR
   visitor([Visitor]) -->|rungroj.dev| cf[CloudFront]
   cf -->|OAC| s3[(S3<br/>static site)]
-  visitor -->|POST /message| apigw[API Gateway<br/>api.rungroj.dev]
+  visitor -->|POST /message| apigw[API Gateway<br/>message.rungroj.dev]
   apigw --> lambda[Lambda]
   lambda -->|verify token| turnstile[Cloudflare Turnstile]
   lambda --> ddb[(DynamoDB)]
@@ -38,10 +38,10 @@ flowchart LR
   ses -->|email| inbox([My inbox])
 ```
 
-- **Regions:** everything runs in the AWS Thailand region (`ap-southeast-7`), except the CloudFront certificate in `us-east-1` (CloudFront only takes certificates from there) and SES in Singapore (`ap-southeast-1`). The API's certificate is in `ap-southeast-7`, beside API Gateway.
+- **Regions:** everything runs in the AWS Thailand region (`ap-southeast-7`), except the CloudFront certificate in `us-east-1` (CloudFront only takes certificates from there). The API's certificate is in `ap-southeast-7`, beside API Gateway.
 - **Site:** Next.js static export in a private S3 bucket (Block Public Access on), served only through CloudFront with Origin Access Control. HTTPS with ACM certificates; a CloudFront Function maps clean URLs to `.html` files.
-- **Contact API:** API Gateway HTTP API on `api.rungroj.dev`, throttled (burst 10, 5 requests/s) with a CORS allow-list. The Lambda validates the body with zod, checks the Turnstile token with Cloudflare (secret key in Secrets Manager), then saves the message to DynamoDB with encryption at rest and point-in-time recovery.
-- **Email notifications:** the table has a DynamoDB Stream (new images). A second Lambda consumes it through an event source mapping filtered to `INSERT` events (one record per batch, two retries) and sends each new message to my inbox with Amazon SES (Singapore) from `noreply@rungroj.dev`. The contact API never waits on email, so a slow or failed send can't break the form.
+- **Contact API:** API Gateway HTTP API on `message.rungroj.dev`, throttled (burst 10, 5 requests/s) with a CORS allow-list. The Lambda validates the body with zod, checks the Turnstile token with Cloudflare (secret key in Secrets Manager), then saves the message to DynamoDB with encryption at rest and point-in-time recovery.
+- **Email notifications:** the table has a DynamoDB Stream (new images). A second Lambda consumes it through an event source mapping filtered to `INSERT` events (one record per batch, two retries) and sends each new message to my inbox with Amazon SES from `noreply@rungroj.dev`. The contact API never waits on email, so a slow or failed send can't break the form.
 - **Infrastructure as code:** all of it in Terraform, with remote state in a private S3 bucket with locking. The domain is registered with Cloudflare.
 - **CI/CD:** every merge to `main` that touches the site runs a GitHub Actions workflow: typecheck, lint and build, then sync to S3 and invalidate CloudFront. It signs in to AWS with OIDC, so there are no AWS keys in GitHub: the IAM role trusts only this repo's `main` branch and may only write the site bucket and invalidate its distribution.
 
