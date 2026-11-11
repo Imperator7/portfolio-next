@@ -239,7 +239,7 @@ export const projects = z.array(ProjectSchema).parse([
     highlights: [
       'Own domain, rungroj.dev, registered through Cloudflare Registrar. The site runs on Vercel and the contact form sends messages to message.rungroj.dev.',
       'The contact API uses API Gateway on message.rungroj.dev. A Lambda checks Turnstile, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
-      'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in Singapore (ap-southeast-1). The form never waits on the email.',
+      'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in the same region (ap-southeast-7). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
     ],
@@ -299,7 +299,6 @@ export const projects = z.array(ProjectSchema).parse([
             {
               service: 'ses',
               role: 'Sends it to my inbox from noreply@rungroj.dev',
-              badges: [{ label: 'ap-southeast-1 · Singapore', kind: 'region' }],
             },
           ],
         },
