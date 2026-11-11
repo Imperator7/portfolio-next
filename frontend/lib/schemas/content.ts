@@ -68,6 +68,7 @@ export const ServiceSchema = z.enum([
   'rds',
   'ecr',
   'ssm',
+  'secrets-manager',
   'eventbridge',
   'cloudwatch',
   'sns',

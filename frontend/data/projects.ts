@@ -238,7 +238,7 @@ export const projects = z.array(ProjectSchema).parse([
     ],
     highlights: [
       'Own domain, rungroj.dev, registered through Cloudflare Registrar. The site runs on Vercel and the contact form sends messages to message.rungroj.dev.',
-      'The contact API uses API Gateway on message.rungroj.dev. A Lambda checks Turnstile, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
+      'The contact API uses API Gateway on message.rungroj.dev. A Lambda verifies the Turnstile token with Cloudflare (its secret key lives in Secrets Manager), rejects any request that carries the form’s honeypot field, validates with Zod and stores the message in DynamoDB, encrypted at rest, with point-in-time recovery.',
       'A DynamoDB Stream feeds a second Lambda, filtered to new messages only (one per batch, two retries), which emails each one to me through Amazon SES in the same region (ap-southeast-7). The form never waits on the email.',
       'The API route is throttled (burst 10, 5 requests a second), CORS is an allow-list, and the default execute-api endpoint is disabled so only my domain reaches it.',
       'All AWS resources are defined in Terraform, with remote state in a private S3 bucket and locking.',
@@ -273,7 +273,11 @@ export const projects = z.array(ProjectSchema).parse([
           {
             service: 'lambda',
             name: 'portfolio-contact',
-            role: 'Writer: checks Turnstile, validates with Zod, saves it',
+            role: 'Writer: runs the bot checks, validates with Zod, saves it',
+            badges: [
+              { label: 'Turnstile token verified' },
+              { label: 'Honeypot field rejected' },
+            ],
           },
           {
             service: 'dynamodb',
@@ -314,6 +318,11 @@ export const projects = z.array(ProjectSchema).parse([
           { label: 'State locking' },
         ],
       },
+      {
+        service: 'secrets-manager',
+        role: 'Holds the Cloudflare Turnstile secret key',
+        badges: [{ label: 'Read only by the contact Lambda’s role' }],
+      },
     ],
     builtWith: [
       {
@@ -337,6 +346,7 @@ export const projects = z.array(ProjectSchema).parse([
           'Lambda (Node.js)',
           'DynamoDB Streams',
           'SES',
+          'Secrets Manager',
           'ACM',
         ],
       },
