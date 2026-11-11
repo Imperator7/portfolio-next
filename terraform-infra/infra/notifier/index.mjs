@@ -1,8 +1,9 @@
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 
 const ses = new SESClient({
-  region: 'ap-southeast-1',
+  region: 'ap-southeast-7',
 })
+
 const SENDER_EMAIL = process.env.SENDER_EMAIL
 const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL
 

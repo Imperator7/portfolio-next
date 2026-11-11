@@ -56,18 +56,18 @@ resource "aws_iam_role_policy_attachment" "contact_lambda_logs" {
 
 data "archive_file" "contact_lambda" {
   type        = "zip"
-  source_dir  = "${path.module}/lambda"
-  output_path = "${path.module}/lambda.zip"
+  source_dir  = "${path.module}/message"
+  output_path = "${path.module}/message.zip"
 }
 
 // create lambda function
 resource "aws_lambda_function" "contact_message" {
-  function_name                  = "portfolio-contact"
-  role                           = aws_iam_role.contact_lambda.arn
-  runtime                        = "nodejs22.x"
-  handler                        = "index.handler"
-  filename                       = data.archive_file.contact_lambda.output_path
-  source_code_hash               = data.archive_file.contact_lambda.output_base64sha256
+  function_name    = "portfolio-contact"
+  role             = aws_iam_role.contact_lambda.arn
+  runtime          = "nodejs22.x"
+  handler          = "index.handler"
+  filename         = data.archive_file.contact_lambda.output_path
+  source_code_hash = data.archive_file.contact_lambda.output_base64sha256
 
   environment {
     variables = {

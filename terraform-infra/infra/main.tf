@@ -1,7 +1,5 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_s3_bucket" "s3_static_hosting" {
-  bucket = "rungroj-portfolio-hosting-${data.aws_caller_identity.current.account_id}"
+  bucket = "rungroj-portfolio-hosting-82193130"
 }
 
 resource "aws_s3_bucket_public_access_block" "s3_static_hosting" {

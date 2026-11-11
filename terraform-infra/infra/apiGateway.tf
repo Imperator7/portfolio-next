@@ -1,11 +1,11 @@
 data "aws_acm_certificate" "api_cert" {
-  domain   = "api.rungroj.dev"
+  domain   = "message.rungroj.dev"
   statuses = ["ISSUED"]
   region   = "ap-southeast-7"
 }
 
 resource "aws_apigatewayv2_domain_name" "api_gateway" {
-  domain_name = "api.rungroj.dev"
+  domain_name = "message.rungroj.dev"
 
   domain_name_configuration {
     certificate_arn = data.aws_acm_certificate.api_cert.arn

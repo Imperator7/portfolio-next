@@ -28,8 +28,7 @@ async function getTurnstileSecretKey() {
     throw new Error('SecretString is empty or not in text format')
   }
 
-  const parsed = JSON.parse(response.SecretString)
-  cachedSecretKey = parsed.secret_key
+  cachedSecretKey = response.SecretString
   return cachedSecretKey
 }
 
