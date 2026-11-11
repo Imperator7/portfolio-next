@@ -4,7 +4,7 @@ The site is a Next.js static export in `frontend/` (this folder; run every npm c
 
 Design system: @DESIGN.md (v4, synced with the code; every color in it matches `app/tokens.css` in both themes). If they ever disagree, the code wins: `app/tokens.css` for tokens, the components for patterns. Update DESIGN.md in the same change as any new component, color or motion.
 
-Tokens live in `app/tokens.css` (Tailwind v4 `@theme`). Never hard-code a hex or an arbitrary size in a component; use token utilities (`bg-canvas`, `text-accent-ink`, `rounded-md`, `text-display`, …). Exceptions that are content, not tokens: tech brand colors (`components/tech-icon.tsx`), AWS/Cloudflare/Terraform service icons (`components/service-icon.tsx`; the WAF, ELB, ECS, RDS, ECR, Systems Manager, EventBridge, CloudWatch and SNS SVGs are from the `aws-icons` npm package 3.3.0, the same official set).
+Tokens live in `app/tokens.css` (Tailwind v4 `@theme`). Never hard-code a hex or an arbitrary size in a component; use token utilities (`bg-canvas`, `text-accent-ink`, `rounded-md`, `text-display`, …). Exceptions that are content, not tokens: tech brand colors (`components/tech-icon.tsx`), AWS/Cloudflare/Terraform service icons (`components/service-icon.tsx`; the WAF, ELB, ECS, RDS, ECR, Systems Manager, Secrets Manager, EventBridge, CloudWatch and SNS SVGs are from the `aws-icons` npm package 3.3.0, the same official set).
 
 ## Folder rules
 
@@ -90,6 +90,8 @@ Tokens live in `app/tokens.css` (Tailwind v4 `@theme`). Never hard-code a hex or
 
 - **Turnstile** (`@marsidev/react-turnstile` in the contact form): the library loads Cloudflare's script itself, so don't add a `<script>` for it in the layout (it loaded twice). The site key is `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in `.env` (template: `.env.example`); `next.config.ts` stops a production build without it. The Lambda (`terraform-infra/infra/message/index.mjs`) takes `turnstileToken` in its `.strict()` schema, checks it with Cloudflare's `siteverify` (secret key in Secrets Manager, `prod/turnstile`) and answers **403** when it fails; `lib/api/contact.ts` turns that into "The security check didn't pass…". The form's schema and the Lambda's must stay in step: a field one sends and the other doesn't accept is a 400 on every send.
 - **`.env` files** are all git-ignored (`.env`, `.env.*`) except `.env.example`. Only public `NEXT_PUBLIC_*` values belong in this static site.
+
+- **Honeypot** (`company_hp`, a hidden input in the contact form): the form stops quietly when it's filled and never sends the field. The Lambda's `.strict()` schema has no such field, so a bot that posts it straight to the API gets a 400. The rungroj.dev card shows this as the first Lambda's "Honeypot field rejected" chip, beside "Turnstile token verified"; Secrets Manager (holds the Turnstile secret key) is a box under "Behind it all".
 
 - **Turnstile on localhost** shows "Unable to connect to website": the real site key only allows the real domain. That's expected in dev; put Cloudflare's test site key in `.env.local` to try the form locally.
 - **Section titles** use `text-balance`, but Chrome still split "How I build projects" as "How I / build projects" on phones, so the title keeps "I build" together with a non-breaking space (`title={'How I build projects'}`; a plain JSX attribute string doesn't process `\u` escapes).
