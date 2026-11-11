@@ -1,13 +1,13 @@
 # rungroj.dev
 
-The portfolio of Rungroj Rungsaranon, fullstack developer, AWS certified. A Next.js static export served from S3 and CloudFront; the contact form posts to an API Gateway + Lambda + DynamoDB backend. All of the infrastructure is defined in Terraform in this repo.
+The portfolio of Rungroj Rungsaranon, fullstack developer, AWS certified. A Next.js static export hosted on Vercel; the contact form posts to an API Gateway + Lambda + DynamoDB backend on AWS, defined in Terraform in this repo.
 
 Live: [rungroj.dev](https://rungroj.dev)
 
 ## What's on the page
 
 - **Hero**: open-to-work status, roles, resume, contact, main expertise and certification badges, all on the first screen at every size.
-- **How I build projects**: rungroj.dev itself, with how the request flows through Cloudflare, CloudFront, S3, API Gateway, Lambda and DynamoDB, then the mini learning projects as a rotating, draggable deck.
+- **How I build projects**: rungroj.dev itself, with how the request flows through Cloudflare, Vercel, API Gateway, Lambda, DynamoDB and SES, then the mini learning projects as a rotating, draggable deck.
 - **Skills**: the stack grouped by role.
 - **Background and credentials**: AWS Solutions Architect – Associate, DataRockie Data Analyst, B.Eng. (Chulalongkorn), TOEIC 965/990.
 - **Contact**: details, resume, and a message form guarded by Cloudflare Turnstile.
@@ -20,7 +20,7 @@ Live: [rungroj.dev](https://rungroj.dev)
 | Site | Next.js 16 (App Router, static export), React 19, TypeScript, Tailwind CSS 4 |
 | Forms and data | react-hook-form + zod, TanStack Query, zustand |
 | Contact backend | API Gateway (HTTP API), Lambda (Node, zod), DynamoDB, Secrets Manager, Cloudflare Turnstile |
-| Hosting | S3 (Block Public Access) + CloudFront with OAC, ACM certificates, Cloudflare Registrar |
+| Hosting | Vercel, Cloudflare Registrar and DNS (S3 + CloudFront with OAC is parked in `../terraform-infra/infra/_parked/`) |
 | Infrastructure | Terraform, remote state in a private S3 bucket with locking |
 
 ## Run it
@@ -51,17 +51,15 @@ hooks/, stores/   TanStack Query mutation, zustand UI store
 public/           photos, badges, resume PDF, AWS service icons
 ```
 
-The infrastructure is in `../terraform-infra/`: `bootstrap/` (state bucket) and `infra/` (site, API, Lambda, DynamoDB).
+The infrastructure is in `../terraform-infra/`: `bootstrap/` (state bucket) and `infra/` (API, Lambdas, DynamoDB).
 
 `DESIGN.md` is the design system; `CLAUDE.md` has the working notes for coding agents.
 
 ## Deploy
 
-Manual for now:
+Vercel builds and deploys the site on every push to `main`. It needs `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in the Vercel project's environment variables.
 
-1. `npm run build` with the Turnstile site key in `.env`.
-2. `aws s3 sync out/ s3://<bucket> --delete` (bucket: `terraform output bucket_name` in `../terraform-infra/infra`).
-3. `aws cloudfront create-invalidation --distribution-id <id> --paths "/*"` (id: `terraform output distribution_id`).
+The S3 + CloudFront deploy (`../.github/workflows/deploy-frontend.yml`) is paused and comes back with the CloudFront hosting.
 
 ## Contact
 
