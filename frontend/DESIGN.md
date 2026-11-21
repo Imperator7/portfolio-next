@@ -63,7 +63,7 @@ typography:
     textTransform: uppercase
   display:
     fontFamily: Poppins
-    fontSize: 'clamp(1.5rem, 4.2vw, 4.25rem)'
+    fontSize: 'clamp(min(1.5rem, calc((100vw - 2.5rem) / 13.5)), 4.2vw, 4.25rem)'
     fontWeight: 500
     lineHeight: 1.12
     letterSpacing: '-0.02em'
@@ -258,7 +258,7 @@ The site is built for one reader first: a recruiter or hiring manager with a min
 | Token                    | Size                          | Use                              |
 | ------------------------ | ----------------------------- | -------------------------------- |
 | name                     | clamp(3.25rem, 8vw, 7.5rem)   | RUNGROJ in the hero              |
-| display                  | clamp(1.5rem, 4.2vw, 4.25rem) | Hero headline (1.5rem floor so the role fits one line on a 375px phone) |
+| display                  | clamp(min(1.5rem, (100vw − 2.5rem) / 13.5), 4.2vw, 4.25rem) | Hero headline (floor shrinks below ~375px so the role always fits one line) |
 | heading-1                | clamp(2rem, 4.4vw, 3.5rem)    | Section titles, project name, About facts |
 | heading-2                | clamp(1.5rem, 2.6vw, 2.25rem) | Sub-sections                     |
 | heading-3                | 20px                          | Card titles, menu rows, skills, the form title |
