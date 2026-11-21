@@ -112,7 +112,9 @@ export default function Hero({ profile, expertise, certifications }: HeroProps) 
           <span className="sr-only">
             {profile.firstName} {profile.lastName}.{' '}
           </span>
-          {profile.headline}{' '}
+          {/* The role never breaks across lines ("Cloud & Fullstack
+              Engineer,"); only the AWS part may wrap below it. */}
+          <span className="whitespace-nowrap">{profile.headline}</span>{' '}
           {/* The certification: the AWS logo stands in for the word "AWS"
               (screen readers still hear it), sized so its letters match the
               headline's lowercase and sit on the same baseline. */}
@@ -137,7 +139,9 @@ export default function Hero({ profile, expertise, certifications }: HeroProps) 
           </span>
         </h1>
         {/* Extra space above so the AWS logo's smile hangs clear of the buttons. */}
-        <div className="mt-4 flex flex-wrap items-center gap-3 max-sm:mt-3 max-sm:gap-2 sm:mt-6">
+        {/* Same face-safe width as Main expertise below: when the buttons
+            would reach the face, "See projects" wraps onto its own line. */}
+        <div className="mt-4 flex flex-wrap items-center gap-3 max-sm:mt-3 max-sm:gap-2 sm:mt-6 sm:max-lg:max-w-[min(22rem,46%)] lg:max-w-[calc(72vw-14.5svh-5rem)]">
           <ResumeButton href={profile.resumeUrl} className="max-sm:min-h-11 max-sm:px-4 max-sm:py-2.5" />
           <a
             href="#contact"

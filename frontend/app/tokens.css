@@ -61,7 +61,7 @@
   --text-name--letter-spacing: 0.05em;
   --text-name--font-weight: 500;
 
-  --text-display: clamp(2rem, 4.2vw, 4.25rem);
+  --text-display: clamp(1.5rem, 4.2vw, 4.25rem);
   --text-display--line-height: 1.12;
   --text-display--letter-spacing: -0.02em;
   --text-display--font-weight: 500;

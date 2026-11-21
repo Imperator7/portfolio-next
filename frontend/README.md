@@ -1,6 +1,6 @@
 # rungroj.dev
 
-The portfolio of Rungroj Rungsaranon, fullstack developer, AWS certified. A Next.js static export hosted on Vercel; the contact form posts to an API Gateway + Lambda + DynamoDB backend on AWS, defined in Terraform in this repo.
+The portfolio of Rungroj Rungsaranon, cloud & fullstack engineer, AWS certified. A Next.js static export hosted on Vercel; the contact form posts to an API Gateway + Lambda + DynamoDB backend on AWS, defined in Terraform in this repo.
 
 Live: [rungroj.dev](https://rungroj.dev)
 

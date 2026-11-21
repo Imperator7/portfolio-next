@@ -6,7 +6,7 @@ My personal portfolio: a **Next.js** site on my own domain, hosted on **Vercel**
 
 ## 👨‍💻 About Me
 
-I'm a **fullstack developer, AWS certified**. I build complete web apps with React, Next.js, Express and TypeScript, and run them on AWS infrastructure I define in Terraform, this site's contact API included.
+I'm a **cloud & fullstack engineer, AWS certified**. I build complete web apps with React, Next.js, Express and TypeScript, and run them on AWS infrastructure I define in Terraform, this site's contact API included.
 
 - **Background:** B.Eng. in Civil Engineering, Chulalongkorn University.
 - **Pivot:** moved into software by building small apps and tools all through university.
