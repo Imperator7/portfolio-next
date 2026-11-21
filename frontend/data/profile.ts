@@ -4,11 +4,11 @@ import { ProfileSchema } from '@/lib/schemas/content'
 export const profile = ProfileSchema.parse({
   firstName: 'Rungroj',
   lastName: 'Rungsaranon',
-  role: 'Fullstack developer',
+  role: 'Cloud & Fullstack Engineer',
   location: 'Bangkok, Thailand',
   openToWork: true,
-  availability: 'Junior fullstack/cloud engineer roles · Bangkok or remote',
-  headline: 'Fullstack developer,',
+  availability: 'Junior cloud/fullstack engineer roles · Bangkok or remote',
+  headline: 'Cloud & Fullstack Engineer,',
   headlineHighlight: 'AWS certified.',
   intro:
     'I design, build and ship complete web apps, from the UI and API to the cloud they run on. Civil engineer by degree, software developer by practice.',

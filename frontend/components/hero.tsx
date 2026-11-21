@@ -112,7 +112,10 @@ export default function Hero({ profile, expertise, certifications }: HeroProps) 
           <span className="sr-only">
             {profile.firstName} {profile.lastName}.{' '}
           </span>
-          {profile.headline}{' '}
+          {/* Always two lines: the role, never split ("Cloud & Fullstack
+              Engineer,"), then the AWS certification on its own line. */}
+          <span className="whitespace-nowrap">{profile.headline}</span>{' '}
+          <br />
           {/* The certification: the AWS logo stands in for the word "AWS"
               (screen readers still hear it), sized so its letters match the
               headline's lowercase and sit on the same baseline. */}
@@ -137,7 +140,11 @@ export default function Hero({ profile, expertise, certifications }: HeroProps) 
           </span>
         </h1>
         {/* Extra space above so the AWS logo's smile hangs clear of the buttons. */}
-        <div className="mt-4 flex flex-wrap items-center gap-3 max-sm:mt-3 max-sm:gap-2 sm:mt-6">
+        {/* Resume and Contact me always share a row. Tablets: "See projects"
+            gets its own line below them, so it never reaches the face.
+            Desktop: same face-safe width as Main expertise, so it wraps
+            there too if the screen is narrow. */}
+        <div className="mt-4 flex flex-wrap items-center gap-3 max-sm:mt-3 max-sm:gap-2 sm:mt-6 lg:max-w-[calc(72vw-14.5svh-5rem)]">
           <ResumeButton href={profile.resumeUrl} className="max-sm:min-h-11 max-sm:px-4 max-sm:py-2.5" />
           <a
             href="#contact"
@@ -158,9 +165,11 @@ export default function Hero({ profile, expertise, certifications }: HeroProps) 
           </a>
           {/* Phones show this link further down (beside Main expertise),
               where it costs the hero no extra line. */}
-          <TextLink href="#work" className="min-h-12 px-3 max-sm:hidden">
-            See projects
-          </TextLink>
+          <div className="max-sm:hidden sm:max-lg:basis-full">
+            <TextLink href="#work" className="min-h-12 px-3">
+              See projects
+            </TextLink>
+          </div>
         </div>
         {/* Short phones only, where the list below is hidden: links down to
             the full stack in Skills and to the projects. */}

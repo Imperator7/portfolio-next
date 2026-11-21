@@ -61,7 +61,10 @@
   --text-name--letter-spacing: 0.05em;
   --text-name--font-weight: 500;
 
-  --text-display: clamp(2rem, 4.2vw, 4.25rem);
+  /* Floor: 1.5rem, or smaller on phones under ~375px so the hero role
+     ("Cloud & Fullstack Engineer,", ~13.5em wide, never split) fits
+     between the 1.25rem side paddings. */
+  --text-display: clamp(min(1.5rem, calc((100vw - 2.5rem) / 13.5)), 4.2vw, 4.25rem);
   --text-display--line-height: 1.12;
   --text-display--letter-spacing: -0.02em;
   --text-display--font-weight: 500;

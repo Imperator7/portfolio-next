@@ -24,11 +24,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Rungroj Rungsaranon · Fullstack developer',
+    default: 'Rungroj Rungsaranon · Cloud & Fullstack Engineer',
     template: '%s · Rungroj Rungsaranon',
   },
   description:
-    'Fullstack developer in Bangkok building with React, Next.js, TypeScript, Node and AWS. Open to junior frontend, backend and fullstack roles.',
+    'AWS certified cloud and fullstack engineer in Bangkok, building with AWS, Terraform, React, Next.js and TypeScript. Open to junior cloud and fullstack roles.',
 }
 
 export const viewport: Viewport = {
