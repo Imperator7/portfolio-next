@@ -33,7 +33,7 @@ const CEFR_REACHED = CEFR_LEVELS.indexOf('C1')
  */
 function CefrLadder() {
   return (
-    <span className="flex flex-col items-center gap-2">
+    <span className="cefr-ladder flex flex-col items-center gap-2">
       <span className="flex h-14 items-end gap-1 sm:h-16">
         {CEFR_LEVELS.map((level, index) => (
           <span
@@ -48,7 +48,7 @@ function CefrLadder() {
             style={
               {
                 height: `${((index + 1) / CEFR_LEVELS.length) * 100}%`,
-                '--rise-start': `${index * 6}%`,
+                '--rise-start': `${index * 10}%`,
               } as React.CSSProperties
             }
           />
