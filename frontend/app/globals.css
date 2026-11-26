@@ -185,13 +185,19 @@ details.disclosure[data-inview]:not([open]) .disclosure-hint {
    the baseline, one after another (each starts a little later via
    --rise-start). Scroll-driven, so it plays with the scroll and needs no
    script; browsers without view timelines, and reduced motion, just show
-   the bars. */
+   the bars. All bars share the whole ladder's view timeline and finish
+   within its entry range, so the bars are always fully up once the ladder
+   is on screen (ending on a cover range left them half grown whenever the
+   page stopped with the ladder in the lower half of the screen). */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    .cefr-ladder {
+      view-timeline-name: --cefr-ladder;
+    }
     .cefr-rise {
       animation: cefr-rise linear both;
-      animation-timeline: view();
-      animation-range: entry calc(20% + var(--rise-start, 0%)) cover calc(30% + var(--rise-start, 0%));
+      animation-timeline: --cefr-ladder;
+      animation-range: entry var(--rise-start, 0%) entry calc(60% + var(--rise-start, 0%));
     }
   }
 }
